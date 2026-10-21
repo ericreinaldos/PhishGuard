@@ -48,10 +48,7 @@ El mockup representa el diseño visual final con la paleta de colores, tipograf�
 
 ---
 
-## 🚀 Cómo guardar las imágenes en tu repositorio
+## Paleta de colores
 
-Para que las imágenes se visualicen correctamente en GitHub, asegúrate de guardarlas en el mismo directorio del archivo `README.md` (o en una carpeta llamada `assets/` ajustando las rutas) con los siguientes nombres:
+<img width="872" height="580" alt="image" src="https://github.com/user-attachments/assets/e50b875c-fb51-4a74-bec4-c4959a4c5f43" />
 
-* `mapa_navegabilidad.png`
-* `wireframe.png`
-* `mockup.png`
