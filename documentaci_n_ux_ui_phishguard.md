@@ -1,0 +1,62 @@
+# PhishGuard — Diseño UX/UI y Arquitectura de Navegación
+
+Este documento detalla el proceso de diseño de interfaz (UI) y experiencia de usuario (UX) para **PhishGuard**, una herramienta enfocada en la detección y análisis de mensajes sospechosos de *phishing*.
+
+---
+
+## 📌 Tabla de Contenidos
+1. [Mapa de Navegabilidad](#-mapa-de-navegabilidad)
+2. [Wireframe (Baja Fidelidad)](#-wireframe-baja-fidelidad)
+3. [Mockup (Alta Fidelidad)](#-mockup-alta-fidelidad)
+4. [Flujo de Usuario y Estructura](#-flujo-de-usuario-y-estructura)
+
+---
+
+## 🗺️ Mapa de Navegabilidad
+
+El mapa de navegabilidad define la estructura jerárquica y el flujo de pantallas que el usuario puede seguir dentro de PhishGuard.
+
+![Mapa de Navegabilidad](mapa_navegabilidad.png)
+
+### Explicación del Flujo:
+* **Página Inicial (Landing Page):** Es el nodo central de acceso. Permite navegar hacia el inicio de sesión, registro o hacia las secciones informativas y operativas.
+* **Autenticación (Inicio de sesión / Registro):** Conectados bidireccionalmente para facilitar la alternancia entre ambos estados.
+* **Sección Informativa («¿Cómo funcionamos?»):** Accesible directamente desde la página inicial para orientar a nuevos usuarios sobre el proceso de detección.
+* **Proceso de Análisis («Escanear» $\rightarrow$ «Panel de escaneo»):** Desde la página inicial o tras autenticarse, el usuario accede a la vista de pegado/escaneo del mensaje. Tras procesarlo, es redirigido al panel con los resultados del análisis de riesgo.
+
+---
+
+## 📐 Wireframe (Baja Fidelidad)
+
+En esta etapa se definió la disposición estructural y jerarquía visual del contenido sin distracciones estilísticas o cromáticas.
+
+![Wireframe de PhishGuard](wireframe.png)
+
+### Componentes Clave:
+1. **Acceso / Autenticación:** Formularios limpios y centrados para ingreso y registro.
+2. **Landing Page:** Encabezado claro con CTA (*Call to Action*) principal para escanear directamente y enlace explicativo.
+3. **Sección Informativa:** Bloques explicativos organizados paso a paso (Pasos 1 al 4) y preguntas frecuentes.
+4. **Entrada de Datos:** Área de texto amplia para pegar el mensaje sospechoso junto a recomendaciones de seguridad.
+5. **Dashboard de Resultados:** Desglose del análisis con un indicador de nivel de riesgo y parámetros específicos.
+
+---
+
+## 🎨 Mockup (Alta Fidelidad)
+
+El mockup representa el diseño visual final con la paleta de colores, tipografías y componentes interactivos aplicados.
+
+![Mockup de PhishGuard](mockup.png)
+
+### Decisiones de Diseño:
+* **Paleta de Colores:** Uso de un fondo oscuro (*Dark Mode*) para reducir la fatiga visual y proyectar una estética moderna de ciberseguridad, complementado con un **azul eléctrico brillante** en botones y bloques activos para resaltar las acciones principales.
+* **Jerarquía de Riesgo:** En la pantalla final de análisis, se utiliza un indicador destacado con tipografía clara para indicar el **Nivel de Riesgo (p. ej., ALTO)** junto a un desglose puntual de indicadores detectados (urgencia, enlaces sospechosos, etc.).
+
+---
+
+## 🚀 Cómo guardar las imágenes en tu repositorio
+
+Para que las imágenes se visualicen correctamente en GitHub, asegúrate de guardarlas en el mismo directorio del archivo `README.md` (o en una carpeta llamada `assets/` ajustando las rutas) con los siguientes nombres:
+
+* `mapa_navegabilidad.png`
+* `wireframe.png`
+* `mockup.png`
