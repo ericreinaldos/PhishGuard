@@ -4,14 +4,6 @@ Este documento detalla el proceso de diseño de interfaz (UI) y experiencia de u
 
 ---
 
-## 📌 Tabla de Contenidos
-1. [Mapa de Navegabilidad](#-mapa-de-navegabilidad)
-2. [Wireframe (Baja Fidelidad)](#-wireframe-baja-fidelidad)
-3. [Mockup (Alta Fidelidad)](#-mockup-alta-fidelidad)
-4. [Flujo de Usuario y Estructura](#-flujo-de-usuario-y-estructura)
-
----
-
 ## 🗺️ Mapa de Navegabilidad
 
 El mapa de navegabilidad define la estructura jerárquica y el flujo de pantallas que el usuario puede seguir dentro de PhishGuard.
