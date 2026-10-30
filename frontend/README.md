@@ -2,6 +2,9 @@
 
 Interfaz web de **PhishGuard**, una plataforma de ciberseguridad para detectar señales de phishing en mensajes, enlaces y cabeceras de correo.
 
+> Este README describe la carpeta `frontend/`. La presentación del proyecto y la documentación están en el
+> [README principal](../README.md) y en [`documentacion/`](../documentacion/). Todos los comandos se ejecutan dentro de `frontend/`.
+
 > **Fase actual: solo frontend.** Todavía **no existe un backend integrado**: no hay servidor, base de datos, autenticación real ni motor de
 > análisis. Los formularios validan en el navegador y muestran un aviso de «pendiente de integración». Todos los datos de demostración están
 > marcados con la etiqueta **Demo** o con un aviso de «Datos de demostración».
@@ -33,8 +36,13 @@ npm -v
 
 ## Ejecutar en local (Windows + VS Code)
 
-1. Abre la carpeta del proyecto en VS Code (`Archivo → Abrir carpeta…`).
-2. Abre una terminal integrada (`Terminal → Nueva terminal`).
+1. Abre la carpeta del repositorio en VS Code (`Archivo → Abrir carpeta…`).
+2. Abre una terminal integrada (`Terminal → Nueva terminal`) y entra en la carpeta del frontend:
+
+   ```bash
+   cd frontend
+   ```
+
 3. Instala las dependencias (la primera vez, o tras actualizar el proyecto):
 
    ```bash
@@ -71,9 +79,11 @@ Al ser una SPA, el servidor que publique `dist/` debe redirigir las rutas descon
 ## Despliegue en Vercel
 
 1. En [vercel.com](https://vercel.com), `Add New… → Project` e importa el repositorio de GitHub.
-2. Vercel detecta Vite automáticamente. `vercel.json` fija el build (`npm run build`), la salida (`dist`) y la redirección de todas las
+2. En **Root Directory** selecciona `frontend` (en un proyecto ya creado: `Settings → Build and Deployment → Root Directory`).
+   El frontend vive en esa carpeta del repositorio, no en la raíz.
+3. Vercel detecta Vite automáticamente. `frontend/vercel.json` fija el build (`npm run build`), la salida (`dist`) y la redirección de todas las
    rutas a `index.html`, para que recargar `/dashboard` o abrir un enlace directo no devuelva 404.
-3. Variables de entorno: de momento no hace falta ninguna. Cuando exista backend, añade `VITE_API_URL` en
+4. Variables de entorno: de momento no hace falta ninguna. Cuando exista backend, añade `VITE_API_URL` en
    `Settings → Environment Variables` (nunca subas un `.env` con valores reales al repositorio).
 
 Cada `git push` a `main` genera un despliegue de producción; las demás ramas generan despliegues de previsualización.

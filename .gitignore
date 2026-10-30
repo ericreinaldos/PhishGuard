@@ -1,0 +1,14 @@
+# Reglas comunes del repositorio. Las del frontend están en frontend/.gitignore
+node_modules
+.env
+.env.*
+!.env.example
+.vercel
+*.pem
+*.key
+*.log
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
