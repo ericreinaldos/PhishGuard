@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Sistema de diseño de PhishGuard.
+ * Paleta tomada del diseño de Figma: fondo carbón y azul eléctrico.
+ * Todos los colores son canales RGB para poder usar opacidades en Tailwind.
+ */
+:root {
+  /* Fondos y superficies */
+  --bg: 18 18 18;
+  --surface: 27 27 27;
+  --surface-2: 35 35 35;
+  --surface-3: 45 45 45;
+
+  /* Bordes */
+  --line: 48 48 48;
+  --line-strong: 72 72 72;
+
+  /* Texto */
+  --fg: 242 242 240;
+  --muted: 168 168 164;
+  --subtle: 133 133 130;
+
+  /* Marca */
+  --accent: 90 139 255; /* #5a8bff · texto y marcas (AA sobre fondo) */
+  --accent-strong: 31 92 255; /* #1f5cff · azul de Figma, rellenos y titulares */
+  --accent-deep: 21 70 209; /* #1546d1 · hover de rellenos */
+  --accent-ink: 255 255 255;
+
+  /* Estados de riesgo */
+  --danger: 255 90 79;
+  --warning: 245 176 65;
+  --safe: 62 207 142;
+  --info: 90 139 255;
+
+  /* Radios */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* Espaciado */
+  --space-section: clamp(6rem, 11vw, 10.5rem);
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+
+  /* Movimiento */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration: 300ms;
+
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    font-size: 15px;
+  }
+  @media (min-width: 640px) {
+    body {
+      font-size: 16px;
+    }
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+    font-stretch: 108%;
+    letter-spacing: -0.015em;
+  }
+  ::selection {
+    background: rgb(var(--accent-strong) / 0.6);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Reglas recomendadas por Lenis para el scroll suave */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-[88rem];
+    padding-inline: var(--gutter);
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted;
+  }
+  .eyebrow::before {
+    content: '';
+    @apply h-1.5 w-1.5 bg-accent-strong;
+  }
+}
+
+@layer utilities {
+  /* Ancho tipográfico de Archivo (eje wdth) */
+  .font-wide {
+    font-stretch: 125%;
+  }
+  .font-semiwide {
+    font-stretch: 112%;
+  }
+  .font-narrow {
+    font-stretch: 85%;
+  }
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(var(--line-strong));
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
