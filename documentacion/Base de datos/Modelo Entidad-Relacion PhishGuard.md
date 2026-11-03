@@ -14,9 +14,8 @@
   - [Motor de detección](#c-motor-de-detección)
   - [Laboratorio](#d-laboratorio)
 - [5. Relaciones y cardinalidades](#5-relaciones-y-cardinalidades)
-- [6. Diagrama entidad-relación](#6-diagrama-entidad-relación)
-- [7. Restricciones e índices](#7-restricciones-e-índices)
-- [8. Decisiones de diseño](#8-decisiones-de-diseño)
+- [6. Restricciones e índices](#7-restricciones-e-índices)
+- [7. Diagrama entidad-relación](#6-diagrama-entidad-relación)
 
 ---
 
