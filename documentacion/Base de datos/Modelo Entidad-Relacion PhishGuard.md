@@ -332,135 +332,9 @@ El laboratorio sirve para **comprobar objetivamente si el motor detecta bien**: 
 
 > La relación entre `detection_rules` y `engine_versions` es **N:M**, resuelta mediante `engine_version_rules`.
 
-## 6. Diagrama entidad-relación
+---
 
-> `AUTH_USERS` representa `auth.users` de Supabase; no se crea manualmente.
-
-![Diagrama entidad-relación de PhishGuard](img/modelo-er.png)
-
-**Leyenda de cardinalidad:**
-
-| Símbolo | Significado |
-|---|---|
-| `\|\|` | Exactamente uno |
-| `o\|` | Cero o uno |
-| `o{` | Cero o muchos |
-| `PK` / `FK` / `UK` | Clave primaria / foránea / única |
-
-<details>
-<summary>Ver código Mermaid del diagrama</summary>
-
-```mermaid
-erDiagram
-    AUTH_USERS ||--|| PROFILES : identidad
-    PROFILES ||--o{ ANALYSES : realiza
-    PROFILES ||--o{ LAB_CAMPAIGNS : crea
-    ANALYSES ||--o{ VERDICTS : genera
-    ENGINE_VERSIONS ||--o{ VERDICTS : ejecuta
-    VERDICTS ||--o{ DETECTED_RULES : contiene
-    ENGINE_VERSION_RULES ||--o{ DETECTED_RULES : activa
-    DETECTION_RULES ||--o{ ENGINE_VERSION_RULES : configurada
-    ENGINE_VERSIONS ||--o{ ENGINE_VERSION_RULES : incluye
-    ENGINE_VERSIONS ||--o{ ENGINE_VERSION_THRESHOLDS : define
-    LAB_CAMPAIGNS ||--o{ LAB_TEST_CASES : contiene
-    LAB_TEST_CASES ||--o{ LAB_TEST_RUNS : ejecuta
-    ENGINE_VERSIONS ||--o{ LAB_TEST_RUNS : utiliza
-    ANALYSES |o--o{ LAB_TEST_RUNS : referencia
-    VERDICTS |o--o{ LAB_TEST_RUNS : produce
-
-    AUTH_USERS {
-        uuid id PK
-    }
-    PROFILES {
-        uuid id PK
-        varchar name
-        varchar role
-        varchar status
-    }
-    ANALYSES {
-        uuid id PK
-        uuid user_id FK
-        varchar analysis_type
-        varchar message_channel
-        text input_content
-        jsonb input_metadata
-        varchar status
-        timestamptz created_at
-        timestamptz completed_at
-    }
-    VERDICTS {
-        uuid id PK
-        uuid analysis_id FK
-        uuid engine_version_id FK
-        integer execution_number
-        integer score
-        varchar classification
-        text verdict
-        text summary
-        jsonb recommendations
-        integer duration_ms
-    }
-    ENGINE_VERSIONS {
-        uuid id PK
-        varchar version UK
-        varchar status
-        timestamptz published_at
-    }
-    DETECTED_RULES {
-        uuid id PK
-        uuid verdict_id FK
-        uuid engine_version_rule_id FK
-        integer applied_score
-        text explanation
-        text evidence
-        jsonb details
-    }
-    ENGINE_VERSION_RULES {
-        uuid id PK
-        uuid engine_version_id FK
-        uuid rule_id FK
-        integer configured_score
-        boolean is_enabled
-    }
-    DETECTION_RULES {
-        uuid id PK
-        varchar code UK
-        varchar name
-        varchar category
-    }
-    ENGINE_VERSION_THRESHOLDS {
-        uuid id PK
-        uuid engine_version_id FK
-        varchar classification
-        integer min_score
-        integer max_score
-    }
-    LAB_CAMPAIGNS {
-        uuid id PK
-        uuid created_by FK
-        varchar name
-        varchar status
-    }
-    LAB_TEST_CASES {
-        uuid id PK
-        uuid campaign_id FK
-        varchar input_type
-        text test_content
-    }
-    LAB_TEST_RUNS {
-        uuid id PK
-        uuid test_case_id FK
-        uuid engine_version_id FK
-        uuid analysis_id FK
-        uuid verdict_id FK
-        varchar status
-        boolean passed
-    }
-```
-
-</details>
-
-## 7. Restricciones e índices
+## 6. Restricciones e índices
 
 ### Restricciones
 
@@ -497,7 +371,7 @@ erDiagram
 > [!WARNING]
 > **Coherencia en `lab_test_runs`:** `analysis_id` y `verdict_id` deben corresponder entre sí. Se garantizará con una restricción relacional o validación transaccional en el backend, para que una ejecución nunca apunte a un veredicto de otro análisis.
 
-## 8. Decisiones de diseño
+## 7. Decisiones de diseño
 
 | Decisión | Motivo |
 |---|---|
@@ -513,3 +387,7 @@ erDiagram
 | `message_channel` en lugar de más tipos | No multiplicar `analysis_type` |
 | `lab_test_runs` separado de `lab_test_cases` | Comparar ejecuciones entre versiones |
 | Laboratorio reutiliza `analyses` y `verdicts` | No duplicar la lógica de resultados |
+
+## 8. Diagrama entidad-relación de PhishGuard (modelo lógico)
+<img width="2599" height="3089" alt="PhishGuard_Modelo_ER" src="https://github.com/user-attachments/assets/3a271c64-5160-4f2d-838c-adbb47017534" />
+
