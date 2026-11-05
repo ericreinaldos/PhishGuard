@@ -9,9 +9,9 @@
 | Hipervisor | Proxmox VE | 9.2 | 8006 | Última versión estable (mayo 2026), basada en Debian 13 |
 | SO (host y VMs) | Debian | 13 "Trixie" | — | Base de Proxmox VE 9.x; estable y con soporte largo |
 | Frontend | React | 18.x | 3000 (dev) | Interfaz del analizador y paneles |
-| Backend | Python + Flask | Python 3.13 / Flask 3.x | 5000 | API REST, motor de scoring |
+| Backend | Python + FastAPI | Python 3.13 / FastAPI | 8000 | API REST, motor de detección. Ver [Motor de detección](Base%20de%20datos/3.%20Motor%20de%20detecci%C3%B3n.md) |
 | Servidor web | Nginx | 1.27 | 80/443 | Proxy inverso + TLS |
-| Base de datos | PostgreSQL | 17.11 | 5432 | Versión estable y madura (17 tiene más tiempo en producción y mejor soporte de librerías Python que la 18, que es la más reciente) |
+| Base de datos | PostgreSQL gestionado (Supabase) + Supabase Auth | — | 5432 (Session pooler) | PostgreSQL en la nube, sin servidor propio que mantener; incluye autenticación y RLS. Ver [Por qué Supabase](Base%20de%20datos/1.%20Porque%20Supabase%3F.md) |
 | Correo (laboratorio) | Postfix + Dovecot | Última de repositorio Debian 13 | 25 / 993 | Generación de casos de prueba |
 | DNS | BIND9 | Última de repositorio Debian 13 | 53 | SPF/DKIM/DMARC del laboratorio |
 | Cifrado | Let's Encrypt / Certbot | — | — | TLS de la plataforma pública |
@@ -76,7 +76,7 @@ Paleta corporativa: navy `#1E2761` + azul hielo `#CADCFC` + blanco.
 | Rol | Persona | Por qué | Tareas principales |
 |---|---|---|---|
 | Infraestructura y laboratorio | Abdellah Chahmi Bahaqqy | Responsabilidad y comunicación constante, clave en la parte que bloquea al resto si falla | Proxmox, VMs, DNS, Postfix/Dovecot, segmentación de red, hardening |
-| Backend y motor de análisis | Eric Reinaldo Salvador | Iniciativa y adaptabilidad, clave en la parte con más decisiones de diseño sobre la marcha | Flask/FastAPI, lógica de scoring, conexión con PostgreSQL |
+| Backend y motor de análisis | Eric Reinaldo Salvador | Iniciativa y adaptabilidad, clave en la parte con más decisiones de diseño sobre la marcha | FastAPI, lógica de scoring, conexión con Supabase (PostgreSQL) |
 
 Frontend y documentación se reparten por sprint según disponibilidad. Cada uno revisa la parte del otro antes de darla por cerrada.
 
