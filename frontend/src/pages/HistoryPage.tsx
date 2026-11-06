@@ -78,7 +78,6 @@ export function HistoryPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Historial"
         title={
           <>
             Historial de <span className="text-accent-strong">análisis</span>

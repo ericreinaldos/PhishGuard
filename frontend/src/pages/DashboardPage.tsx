@@ -26,7 +26,6 @@ export function DashboardPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Panel"
         title={
           <>
             Resumen de <span className="text-accent-strong">actividad</span>

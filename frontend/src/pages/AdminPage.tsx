@@ -47,7 +47,6 @@ export function AdminPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Administración"
         title={
           <>
             Estado de la <span className="text-accent-strong">plataforma</span>
