@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { AtSign, KeyRound, LogOut, Save, Trash2, User } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { Switch } from '@/components/ui/Switch';
 import { Badge } from '@/components/ui/Badge';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -25,6 +26,7 @@ export function SettingsPage() {
   const [profile, setProfile] = useState({ name: DEMO_USER.name, email: DEMO_USER.email });
   const [emailError, setEmailError] = useState<string>();
   const { preferences, updatePreferences } = usePreferences();
+  const [confirming, setConfirming] = useState<'history' | 'account' | null>(null);
 
   const saveProfile = (e: FormEvent) => {
     e.preventDefault();
@@ -103,7 +105,7 @@ export function SettingsPage() {
           <Switch id="priv-content" label="Guardar el contenido analizado" description="Si está desactivado, solo se guarda el resultado, nunca el texto." checked={preferences.storeContent} onChange={(v) => updatePreferences({ storeContent: v })} />
         </div>
         <div className="mt-3 flex justify-end">
-          <Button variant="ghost" leftIcon={Trash2} onClick={() => notifyPending('Borrar el historial')}>
+          <Button variant="danger" leftIcon={Trash2} onClick={() => setConfirming('history')}>
             Borrar historial
           </Button>
         </div>
@@ -134,12 +136,35 @@ export function SettingsPage() {
               <p className="text-sm font-medium text-danger">Eliminar cuenta</p>
               <p className="text-sm text-muted">Borra tu cuenta y todos sus datos de forma permanente.</p>
             </div>
-            <Button variant="danger" leftIcon={Trash2} onClick={() => notifyPending('La eliminación de cuentas')}>
+            <Button variant="danger" leftIcon={Trash2} onClick={() => setConfirming('account')}>
               Eliminar cuenta
             </Button>
           </div>
         </div>
       </Section>
+
+      <ConfirmDialog
+        open={confirming === 'history'}
+        title="¿Borrar todo el historial?"
+        description="Se eliminarán tus análisis guardados en esta cuenta. Esta acción no se puede deshacer."
+        confirmLabel="Borrar historial"
+        onCancel={() => setConfirming(null)}
+        onConfirm={() => {
+          setConfirming(null);
+          notifyPending('Borrar el historial');
+        }}
+      />
+      <ConfirmDialog
+        open={confirming === 'account'}
+        title="¿Eliminar tu cuenta?"
+        description="Se borrarán tu cuenta y todos sus datos de forma permanente. Esta acción no se puede deshacer."
+        confirmLabel="Eliminar cuenta"
+        onCancel={() => setConfirming(null)}
+        onConfirm={() => {
+          setConfirming(null);
+          notifyPending('La eliminación de cuentas');
+        }}
+      />
     </>
   );
 }
