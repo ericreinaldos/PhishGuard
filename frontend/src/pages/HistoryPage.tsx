@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { History, Search, SearchX, ScanSearch } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Button, ButtonLink } from '@/components/ui/Button';
@@ -69,10 +69,15 @@ export function HistoryPage() {
     );
   }, [source, query, type, level]);
 
+  const searchInput = useRef<HTMLInputElement>(null);
+  const filtersActive = query.trim() !== '' || type !== 'all' || level !== 'all';
+
   const clearFilters = () => {
     setQuery('');
     setType('all');
     setLevel('all');
+    // El botón desaparece al limpiar: el foco continúa en la búsqueda
+    searchInput.current?.focus();
   };
 
   return (
@@ -109,7 +114,7 @@ export function HistoryPage() {
           {/* Barra de búsqueda y filtros */}
           <div className="grid grid-cols-1 gap-8 border-y border-line py-8 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-5">
-              <Input id="history-search" label="Buscar" type="search" placeholder="Contenido o identificador…" icon={Search} value={query} onChange={(e) => setQuery(e.target.value)} />
+              <Input ref={searchInput} id="history-search" label="Buscar" type="search" placeholder="Contenido o identificador…" icon={Search} value={query} onChange={(e) => setQuery(e.target.value)} />
             </div>
             <div className="flex flex-col justify-end gap-4 lg:col-span-7">
               <FilterChips
@@ -122,9 +127,16 @@ export function HistoryPage() {
             </div>
           </div>
 
-          <p className="mb-2 mt-8 label text-subtle" aria-live="polite">
-            {rows.length} de {source.length} análisis
-          </p>
+          <div className="mb-4 mt-8 flex min-h-10 items-center justify-between gap-4 lg:min-h-8">
+            <p className="label text-subtle" aria-live="polite">
+              {rows.length} de {source.length} análisis
+            </p>
+            {filtersActive && rows.length > 0 && (
+              <Button variant="ghost" size="sm" onClick={clearFilters}>
+                Limpiar filtros
+              </Button>
+            )}
+          </div>
 
           <AnalysesTable
             rows={rows}
