@@ -1,12 +1,12 @@
 import { useId, useState } from 'react';
-import { ChevronDown, Lock } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { Panel } from '@/components/common/Panel';
 import { ANALYZER_TIPS } from '@/data/content';
 import { cn } from '@/utils/cn';
 
 /**
- * Columna de ayuda del analizador: consejos del boceto de Figma y aviso de privacidad, como notas al margen.
- * En pantallas pequeñas los consejos se pliegan para que el resultado quede cerca del botón.
+ * Columna de ayuda del analizador: consejos del boceto de Figma, como notas al margen.
+ * En pantallas pequeñas se pliegan para que el resultado quede cerca del botón.
  */
 export function TipsPanel({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
@@ -16,7 +16,7 @@ export function TipsPanel({ className }: { className?: string }) {
     <aside className={className} aria-label="Consejos para analizar">
       <Panel
         label="Antes de analizar"
-        padding="lg"
+        padding="none"
         className="h-full"
         aside={
           <button
@@ -31,7 +31,7 @@ export function TipsPanel({ className }: { className?: string }) {
           </button>
         }
       >
-        <ol id={listId} className={cn('space-y-5', !open && 'hidden lg:block')}>
+        <ol id={listId} className={cn('space-y-5 p-5 sm:p-8', !open && 'hidden lg:block')}>
           {ANALYZER_TIPS.map((tip, i) => (
             <li key={tip} className="flex gap-4 text-[15px] leading-snug text-fg/90">
               <span className="font-mono text-[11px] leading-5 text-accent">{i + 1}</span>
@@ -39,15 +39,6 @@ export function TipsPanel({ className }: { className?: string }) {
             </li>
           ))}
         </ol>
-        <div className={open ? 'mt-8 border-t border-line pt-6' : 'lg:mt-8 lg:border-t lg:border-line lg:pt-6'}>
-          <p className="flex items-center gap-2 label text-subtle">
-            <Lock className="h-3.5 w-3.5" aria-hidden />
-            Privacidad
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-muted">
-            En esta versión nada sale de tu navegador: el motor de análisis aún no está conectado y no se guarda ningún contenido.
-          </p>
-        </div>
       </Panel>
     </aside>
   );

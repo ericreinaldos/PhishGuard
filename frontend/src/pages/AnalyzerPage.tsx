@@ -6,6 +6,7 @@ import { Panel } from '@/components/common/Panel';
 import { MessageForm } from '@/components/analyzer/MessageForm';
 import { UrlForm } from '@/components/analyzer/UrlForm';
 import { HeadersForm } from '@/components/analyzer/HeadersForm';
+import { PrivacyNote } from '@/components/analyzer/PrivacyNote';
 import { TipsPanel } from '@/components/analyzer/TipsPanel';
 import { ResultPanel } from '@/components/analyzer/ResultPanel';
 import type { AnalyzerFormProps } from '@/components/analyzer/types';
@@ -88,6 +89,8 @@ export function AnalyzerPage() {
         </Panel>
         {preferences.showTips && <TipsPanel className="lg:col-span-4" />}
       </div>
+
+      <PrivacyNote className="mt-6" />
 
       <div className="mt-16 sm:mt-20">
         <ResultPanel status={status} onReset={reset} />
