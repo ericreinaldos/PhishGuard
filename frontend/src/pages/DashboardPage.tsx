@@ -34,14 +34,12 @@ export function DashboardPage() {
         description="Tus análisis recientes y el estado general de lo que has comprobado."
       />
 
-      <DemoNotice className="mb-12" />
-
-      <StatGrid metrics={DEMO_DASHBOARD_METRICS} className="mb-6" />
+      <DemoNotice className="mb-8" />
 
       {/* Acceso rápido: mismas filas con relleno azul que en la home, en versión compacta */}
       <Section index={1} title="¿Te ha llegado algo sospechoso?" description="Elige qué quieres analizar." layout="stacked">
         <ul className="grid grid-cols-1 border-b border-line md:grid-cols-3 md:border-b-0">
-          {QUICK_MODES.map(({ type, text }, i) => (
+          {QUICK_MODES.map(({ type, text }) => (
             <li key={type} className="border-t border-line md:border-l md:border-t-0 md:first:border-l-0">
               <Link
                 to={type === 'message' ? '/analyzer' : `/analyzer?mode=${type}`}
@@ -52,8 +50,7 @@ export function DashboardPage() {
                   aria-hidden
                 />
                 <span className="relative">
-                  <span className="font-mono text-[11px] text-subtle transition-colors group-hover:text-accent-ink/70">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="mt-2 block font-wide text-2xl font-bold uppercase leading-none text-fg transition-colors group-hover:text-accent-ink">
+                  <span className="block font-wide text-2xl font-bold uppercase leading-none text-fg transition-colors group-hover:text-accent-ink">
                     {ANALYSIS_TYPE_CONFIG[type].label}
                   </span>
                   <span className="mt-2 block text-sm text-muted transition-colors group-hover:text-accent-ink/85">{text}</span>
@@ -64,6 +61,8 @@ export function DashboardPage() {
           ))}
         </ul>
       </Section>
+
+      <StatGrid metrics={DEMO_DASHBOARD_METRICS} className="mb-6" />
 
       <div className="grid grid-cols-1 gap-x-10 xl:grid-cols-12">
         <div className="min-w-0 xl:col-span-8">
@@ -92,7 +91,7 @@ export function DashboardPage() {
 
           <Section index={4} layout="stacked" title="Actividad reciente">
             <ol>
-              {DEMO_ACTIVITY.map((event) => (
+              {DEMO_ACTIVITY.slice(0, 3).map((event) => (
                 <li key={event.id} className="border-t border-line py-4 first:border-t-0 first:pt-0">
                   <div className="flex items-baseline justify-between gap-3">
                     <p className="text-[15px] text-fg">{event.title}</p>
@@ -100,8 +99,10 @@ export function DashboardPage() {
                       {formatDateTime(event.createdAt)}
                     </time>
                   </div>
-                  <p className="mt-1 truncate text-sm text-muted">{event.detail}</p>
-                  {event.level && <RiskBadge level={event.level} className="mt-2.5" />}
+                  <div className="mt-1 flex items-center justify-between gap-3">
+                    <p className="min-w-0 truncate text-sm text-muted">{event.detail}</p>
+                    {event.level && <RiskBadge level={event.level} className="shrink-0" />}
+                  </div>
                 </li>
               ))}
             </ol>
