@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/Input';
 import { ANALYZER_EXAMPLES } from '@/data/analyzerExamples';
 import { focusFirstInvalid } from '@/utils/focus';
 import { isValidUrl } from '@/utils/validation';
+import { submitOnCtrlEnter } from '@/utils/keyboard';
 import { FormActions } from './FormActions';
 import type { AnalyzerFormProps } from './types';
 
@@ -35,7 +36,7 @@ export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-5">
+    <form onSubmit={handleSubmit} onKeyDown={(e) => submitOnCtrlEnter(e, busy)} noValidate className="space-y-5">
       <Input
         id="url-input"
         label="Dirección web"

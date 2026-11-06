@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Sparkles } from 'lucide-react';
 import { Textarea } from '@/components/ui/Textarea';
 import { focusFirstInvalid } from '@/utils/focus';
+import { submitOnCtrlEnter } from '@/utils/keyboard';
 import { FormActions } from './FormActions';
 import { ANALYZER_EXAMPLES, MESSAGE_MAX_LENGTH } from '@/data/analyzerExamples';
 import type { AnalyzerFormProps } from './types';
@@ -24,7 +25,7 @@ export function MessageForm({ onSubmit, busy }: AnalyzerFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-5">
+    <form onSubmit={handleSubmit} onKeyDown={(e) => submitOnCtrlEnter(e, busy)} noValidate className="space-y-5">
       <Textarea
         id="message-input"
         label="Contenido del mensaje"
