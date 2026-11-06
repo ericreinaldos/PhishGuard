@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
+import { PreferencesProvider } from '@/context/PreferencesContext';
 import { ToastProvider } from '@/context/ToastContext';
 import { SmoothScrollProvider } from '@/context/SmoothScrollContext';
 import { ScrollToTop } from '@/components/common/ScrollToTop';
@@ -9,8 +10,10 @@ export default function App() {
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <SmoothScrollProvider>
         <ToastProvider>
-          <ScrollToTop />
-          <AppRouter />
+          <PreferencesProvider>
+            <ScrollToTop />
+            <AppRouter />
+          </PreferencesProvider>
         </ToastProvider>
       </SmoothScrollProvider>
     </BrowserRouter>

@@ -11,6 +11,7 @@ import { ResultPanel } from '@/components/analyzer/ResultPanel';
 import type { AnalyzerFormProps } from '@/components/analyzer/types';
 import { useAnalysisSubmit } from '@/hooks/useAnalysisSubmit';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { usePreferences } from '@/hooks/usePreferences';
 import type { AnalysisType } from '@/types/analysis';
 
 const MODES: TabItem<AnalysisType>[] = [
@@ -36,6 +37,7 @@ const isAnalysisType = (value: string | null): value is AnalysisType => value ==
 
 export function AnalyzerPage() {
   useDocumentTitle('Analizador');
+  const { preferences } = usePreferences();
   const [params, setParams] = useSearchParams();
   const modeParam = params.get('mode');
   const mode: AnalysisType = isAnalysisType(modeParam) ? modeParam : 'message';
@@ -67,7 +69,7 @@ export function AnalyzerPage() {
 
       <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
         <Panel
-          className="lg:col-span-8"
+          className={preferences.showTips ? 'lg:col-span-8' : 'lg:col-span-12'}
           padding="lg"
           label={PANEL_LABEL[mode]}
           aside={<span className="font-mono text-[11px] text-subtle">{String(index).padStart(2, '0')} / 03</span>}
@@ -84,7 +86,7 @@ export function AnalyzerPage() {
             onValueChange={(value) => setDrafts((d) => ({ ...d, [mode]: value }))}
           />
         </Panel>
-        <TipsPanel className="lg:col-span-4" />
+        {preferences.showTips && <TipsPanel className="lg:col-span-4" />}
       </div>
 
       <div className="mt-16 sm:mt-20">

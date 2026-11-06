@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { FileBarChart2, RotateCcw, ScanSearch } from 'lucide-react';
+import { isMotionReduced } from '@/lib/gsap';
 import { Alert } from '@/components/ui/Alert';
 import { Button, ButtonLink } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
@@ -37,8 +38,7 @@ export function ResultPanel({ status, onReset }: ResultPanelProps) {
     if (status.state === 'idle' || !section.current) return;
     const { top, bottom } = section.current.getBoundingClientRect();
     if (top < HEADER_HEIGHT || bottom > window.innerHeight) {
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      section.current.scrollIntoView({ block: 'start', behavior: reduced ? 'auto' : 'smooth' });
+      section.current.scrollIntoView({ block: 'start', behavior: isMotionReduced() ? 'auto' : 'smooth' });
     }
     if (status.state !== 'loading') heading.current?.focus({ preventScroll: true });
   }, [status.state]);

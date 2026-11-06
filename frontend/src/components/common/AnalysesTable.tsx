@@ -14,13 +14,15 @@ interface AnalysesTableProps {
   detailHref: (row: AnalysisSummary) => string;
   empty?: ReactNode;
   compact?: boolean;
+  /** Filas más bajas para ver más registros a la vez. */
+  dense?: boolean;
 }
 
 /**
  * Tabla de análisis compartida por el dashboard y el historial.
  * Toda la fila abre el detalle: el enlace de la primera celda se extiende sobre ella con un pseudoelemento.
  */
-export function AnalysesTable({ rows, detailHref, empty, compact }: AnalysesTableProps) {
+export function AnalysesTable({ rows, detailHref, empty, compact, dense }: AnalysesTableProps) {
   const columns: Column<AnalysisSummary>[] = [
     {
       key: 'content',
@@ -59,5 +61,5 @@ export function AnalysesTable({ rows, detailHref, empty, compact }: AnalysesTabl
     },
   ];
 
-  return <DataTable columns={columns} rows={rows} getRowKey={(r) => r.id} caption="Análisis realizados" empty={empty} />;
+  return <DataTable columns={columns} rows={rows} getRowKey={(r) => r.id} caption="Análisis realizados" empty={empty} dense={dense} />;
 }

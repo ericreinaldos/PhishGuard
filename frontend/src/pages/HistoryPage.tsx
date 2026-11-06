@@ -9,6 +9,7 @@ import { DemoNotice } from '@/components/common/DemoNotice';
 import { AnalysesTable } from '@/components/common/AnalysesTable';
 import { DEMO_ANALYSES } from '@/data/demoAnalyses';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { usePreferences } from '@/hooks/usePreferences';
 import type { AnalysisType, RiskLevel } from '@/types/analysis';
 import { ANALYSIS_TYPE_CONFIG, RISK_CONFIG, RISK_LEVELS } from '@/utils/risk';
 import { cn } from '@/utils/cn';
@@ -54,6 +55,7 @@ function FilterChips<T extends string>({
 
 export function HistoryPage() {
   useDocumentTitle('Historial');
+  const { preferences } = usePreferences();
   const [showDemo, setShowDemo] = useState(true);
   const [query, setQuery] = useState('');
   const [type, setType] = useState<Filter<AnalysisType>>('all');
@@ -140,6 +142,7 @@ export function HistoryPage() {
 
           <AnalysesTable
             rows={rows}
+            dense={preferences.compactTables}
             detailHref={(r) => `/results?demo=1&id=${r.id}`}
             empty={
               <EmptyState

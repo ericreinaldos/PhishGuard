@@ -10,6 +10,7 @@ import { DemoTag } from '@/components/common/DemoNotice';
 import { userInitials } from '@/components/layout/AccountMenu';
 import { DEMO_USER } from '@/data/demoUser';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { usePreferences } from '@/hooks/usePreferences';
 import { useToast } from '@/hooks/useToast';
 import { useVisualLogout } from '@/hooks/useVisualLogout';
 import { formatDate } from '@/utils/format';
@@ -23,8 +24,7 @@ export function SettingsPage() {
 
   const [profile, setProfile] = useState({ name: DEMO_USER.name, email: DEMO_USER.email });
   const [emailError, setEmailError] = useState<string>();
-  const [prefs, setPrefs] = useState({ reduceMotion: false, compactTables: false, showTips: true });
-  const [privacy, setPrivacy] = useState({ saveHistory: true, storeContent: false });
+  const { preferences, updatePreferences } = usePreferences();
 
   const saveProfile = (e: FormEvent) => {
     e.preventDefault();
@@ -82,7 +82,7 @@ export function SettingsPage() {
         </form>
       </Section>
 
-      <Section index={2} title="Preferencias visuales" description="Ajusta cómo se muestra la aplicación.">
+      <Section index={2} title="Preferencias visuales" description="Ajusta cómo se muestra la aplicación. Los cambios se aplican al momento en este dispositivo.">
         <div className="flex items-center justify-between gap-4 pb-3">
           <div>
             <p className="text-sm font-medium text-fg">Tema</p>
@@ -91,28 +91,20 @@ export function SettingsPage() {
           <Badge tone="neutral">Oscuro</Badge>
         </div>
         <div className="divide-y divide-line border-t border-line">
-          <Switch id="pref-motion" label="Reducir animaciones" description="Desactiva transiciones y efectos de movimiento." checked={prefs.reduceMotion} onChange={(v) => setPrefs((p) => ({ ...p, reduceMotion: v }))} />
-          <Switch id="pref-compact" label="Tablas compactas" description="Muestra más filas en el historial." checked={prefs.compactTables} onChange={(v) => setPrefs((p) => ({ ...p, compactTables: v }))} />
-          <Switch id="pref-tips" label="Consejos en el analizador" description="Muestra el panel de ayuda junto al formulario." checked={prefs.showTips} onChange={(v) => setPrefs((p) => ({ ...p, showTips: v }))} />
-        </div>
-        <div className="mt-3 flex justify-end">
-          <Button variant="outline" leftIcon={Save} onClick={() => notifyPending('Guardar las preferencias')}>
-            Guardar preferencias
-          </Button>
+          <Switch id="pref-motion" label="Reducir animaciones" description="Desactiva transiciones y efectos de movimiento." checked={preferences.reduceMotion} onChange={(v) => updatePreferences({ reduceMotion: v })} />
+          <Switch id="pref-compact" label="Tablas compactas" description="Muestra más filas en el historial." checked={preferences.compactTables} onChange={(v) => updatePreferences({ compactTables: v })} />
+          <Switch id="pref-tips" label="Consejos en el analizador" description="Muestra el panel de ayuda junto al formulario." checked={preferences.showTips} onChange={(v) => updatePreferences({ showTips: v })} />
         </div>
       </Section>
 
-      <Section index={3} title="Privacidad" description="Decide qué se conserva de tus análisis.">
+      <Section index={3} title="Privacidad" description="Decide qué se conserva de tus análisis. Se recuerda en este dispositivo y se aplicará cuando el historial se guarde en tu cuenta.">
         <div className="divide-y divide-line">
-          <Switch id="priv-history" label="Guardar historial" description="Conserva la puntuación y el veredicto de cada análisis." checked={privacy.saveHistory} onChange={(v) => setPrivacy((p) => ({ ...p, saveHistory: v }))} />
-          <Switch id="priv-content" label="Guardar el contenido analizado" description="Si está desactivado, solo se guarda el resultado, nunca el texto." checked={privacy.storeContent} onChange={(v) => setPrivacy((p) => ({ ...p, storeContent: v }))} />
+          <Switch id="priv-history" label="Guardar historial" description="Conserva la puntuación y el veredicto de cada análisis." checked={preferences.saveHistory} onChange={(v) => updatePreferences({ saveHistory: v })} />
+          <Switch id="priv-content" label="Guardar el contenido analizado" description="Si está desactivado, solo se guarda el resultado, nunca el texto." checked={preferences.storeContent} onChange={(v) => updatePreferences({ storeContent: v })} />
         </div>
-        <div className="mt-3 flex flex-wrap justify-end gap-2">
+        <div className="mt-3 flex justify-end">
           <Button variant="ghost" leftIcon={Trash2} onClick={() => notifyPending('Borrar el historial')}>
             Borrar historial
-          </Button>
-          <Button variant="outline" leftIcon={Save} onClick={() => notifyPending('Guardar la configuración de privacidad')}>
-            Guardar
           </Button>
         </div>
       </Section>

@@ -89,6 +89,14 @@
       transition-duration: 0.01ms !important;
     }
   }
+  /* La misma regla para la preferencia «Reducir animaciones» */
+  html[data-reduce-motion] *,
+  html[data-reduce-motion] *::before,
+  html[data-reduce-motion] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Reglas recomendadas por Lenis para el scroll suave */
