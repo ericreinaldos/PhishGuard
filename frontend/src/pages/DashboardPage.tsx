@@ -80,7 +80,10 @@ export function DashboardPage() {
               </Link>
             }
           >
-            <AnalysesTable rows={DEMO_ANALYSES.slice(0, 5)} detailHref={(r) => `/results?demo=1&id=${r.id}`} compact />
+            {/* Cinco filas; ocho desde 1280 px, donde la tabla comparte fila con la columna lateral */}
+            <div className="[&_tbody_tr:nth-child(n+6)]:hidden xl:[&_tbody_tr:nth-child(n+6)]:table-row">
+              <AnalysesTable rows={DEMO_ANALYSES.slice(0, 8)} detailHref={(r) => `/results?demo=1&id=${r.id}`} compact />
+            </div>
           </Section>
         </div>
 
