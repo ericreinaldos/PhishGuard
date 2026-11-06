@@ -52,7 +52,7 @@ export function PageHeader({ title, description, actions, eyebrow }: PageHeaderP
       {(description || actions) && (
         <div className="mt-3 flex flex-col gap-4 sm:mt-4 lg:flex-row lg:items-end lg:justify-between" data-intro>
           {description && <p className="max-w-3xl text-base leading-relaxed text-muted">{description}</p>}
-          {actions && <div className="flex shrink-0 flex-wrap gap-3">{actions}</div>}
+          {actions && <div className="flex shrink-0 flex-wrap items-center gap-3">{actions}</div>}
         </div>
       )}
       <Rule className="mt-6 sm:mt-8" data-intro-rule="" />
