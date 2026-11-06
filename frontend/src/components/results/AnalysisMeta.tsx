@@ -18,7 +18,7 @@ export function AnalysisMeta({ result }: { result: AnalysisResult }) {
     <dl className="grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-4">
       {rows.map((row) => (
         <div key={row.label} className="border-t border-line pt-4">
-          <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">{row.label}</dt>
+          <dt className="label text-subtle">{row.label}</dt>
           <dd className="mt-2 truncate text-[15px] text-fg">{row.value}</dd>
         </div>
       ))}

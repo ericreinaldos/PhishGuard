@@ -68,7 +68,7 @@ export function RegisterPage() {
   return (
     <>
       <p className="eyebrow">Registro</p>
-      <h1 className="mt-5 font-semiwide text-[2.2rem] font-semibold uppercase leading-[1] text-fg sm:text-[2.6rem]">
+      <h1 className="mt-5 font-semiwide text-[2.2rem] font-semibold uppercase leading-[1] text-fg text-balance sm:text-[2.6rem]">
         Crea tu <span className="text-accent-strong">cuenta</span>
       </h1>
       <p className="mt-4 text-[17px] leading-relaxed text-muted">Guarda tu historial y configura tus preferencias de análisis.</p>
@@ -122,7 +122,7 @@ export function RegisterPage() {
 
       <p className="mt-8 text-center text-sm text-muted">
         ¿Ya tienes una cuenta?{' '}
-        <Link to="/login" className="font-medium text-accent hover:text-accent-strong">
+        <Link to="/login" className="font-medium text-accent hover:text-fg">
           Inicia sesión
         </Link>
       </p>

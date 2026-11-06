@@ -8,7 +8,7 @@ export default {
       colors: {
         bg: token('bg'),
         surface: { DEFAULT: token('surface'), 2: token('surface-2'), 3: token('surface-3') },
-        line: { DEFAULT: token('line'), strong: token('line-strong') },
+        line: { DEFAULT: token('line'), strong: token('line-strong'), control: token('line-control') },
         fg: token('fg'),
         muted: token('muted'),
         subtle: token('subtle'),
@@ -40,6 +40,11 @@ export default {
       },
       spacing: {
         section: 'var(--space-section)',
+      },
+      transitionDuration: {
+        fast: 'var(--duration-fast)',
+        base: 'var(--duration)',
+        slow: 'var(--duration-slow)',
       },
       transitionTimingFunction: {
         out: 'var(--ease-out)',

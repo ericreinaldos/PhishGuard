@@ -40,7 +40,7 @@ export function DataTable<T>({ columns, rows, getRowKey, caption, empty }: DataT
                 key={col.key}
                 scope="col"
                 className={cn(
-                  'border-b border-line px-4 pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-subtle first:pl-0 last:pr-0',
+                  'border-b border-line px-4 pb-3 label font-medium text-subtle first:pl-0 last:pr-0',
                   col.align === 'right' ? 'text-right' : 'text-left',
                   col.hideBelow && HIDE[col.hideBelow],
                   col.className,

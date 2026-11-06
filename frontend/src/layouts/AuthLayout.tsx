@@ -12,7 +12,7 @@ export function AuthLayout() {
         <Logo />
         <div className="max-w-md">
           <p className="eyebrow">Protección antes del clic</p>
-          <h2 className="mt-6 font-semiwide text-[2.8rem] font-semibold uppercase leading-[1] text-fg">
+          <h2 className="mt-6 font-semiwide text-[2.8rem] font-semibold uppercase leading-[1] text-fg text-balance">
             Un minuto de duda <span className="text-accent-strong">vale la pena</span>
           </h2>
           <ol className="mt-12">

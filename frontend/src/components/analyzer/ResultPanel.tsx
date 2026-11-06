@@ -31,7 +31,7 @@ export function ResultPanel({ status, onReset }: ResultPanelProps) {
         <h2 id="result-title" className="eyebrow" style={{ fontStretch: '100%' }}>
           Resultado
         </h2>
-        <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-subtle">{STATE_LABEL[status.state]}</span>
+        <span className="label text-subtle">{STATE_LABEL[status.state]}</span>
       </div>
 
       {status.state === 'idle' && (

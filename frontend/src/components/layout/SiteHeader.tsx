@@ -59,12 +59,12 @@ export function SiteHeader({ links, isActive, actions, mobileActions, logoTo = '
   return (
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-40 border-b transition-colors duration-300',
+        'fixed inset-x-0 top-0 z-40 border-b transition-colors duration-base',
         solid || scrolled || open ? 'border-line bg-bg' : 'border-transparent bg-transparent',
       )}
     >
-      <nav className="container-page flex h-16 items-center justify-between gap-6" aria-label="Principal">
-        <Logo to={logoTo} />
+      <nav className="container-page grid h-16 grid-cols-[1fr_auto] items-center gap-6 lg:grid-cols-[1fr_auto_1fr]" aria-label="Principal">
+        <Logo to={logoTo} className="justify-self-start" />
 
         <ul className="hidden items-center gap-8 lg:flex">
           {links.map((item) => {
@@ -84,19 +84,19 @@ export function SiteHeader({ links, isActive, actions, mobileActions, logoTo = '
           })}
         </ul>
 
-        <div className="hidden items-center gap-5 lg:flex">{actions}</div>
+        <div className="hidden items-center justify-end gap-5 lg:flex">{actions}</div>
 
         <button
           type="button"
-          className="-mr-2 flex h-10 items-center gap-3 px-2 font-mono text-[11px] uppercase tracking-[0.2em] text-fg lg:hidden"
+          className="-mr-2 flex h-10 items-center gap-3 justify-self-end px-2 font-mono text-[11px] uppercase tracking-[0.2em] text-fg lg:hidden"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
           aria-controls="mobile-menu"
         >
           {open ? 'Cerrar' : 'Menú'}
           <span className="relative block h-2.5 w-5" aria-hidden>
-            <span className={cn('absolute left-0 h-px w-5 bg-current transition-transform duration-300', open ? 'top-1 rotate-45' : 'top-0')} />
-            <span className={cn('absolute left-0 h-px w-5 bg-current transition-transform duration-300', open ? 'top-1 -rotate-45' : 'top-2.5')} />
+            <span className={cn('absolute left-0 h-px w-5 bg-current transition-transform duration-base', open ? 'top-1 rotate-45' : 'top-0')} />
+            <span className={cn('absolute left-0 h-px w-5 bg-current transition-transform duration-base', open ? 'top-1 -rotate-45' : 'top-2.5')} />
           </span>
         </button>
       </nav>

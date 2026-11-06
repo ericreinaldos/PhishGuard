@@ -27,7 +27,7 @@ function MessageText({ marked }: { marked: boolean }) {
           <span
             key={i}
             className={cn(
-              'transition-[background-color,color,box-shadow] duration-500',
+              'transition-[background-color,color,box-shadow] duration-slow',
               part.mono && 'font-mono text-[12px] sm:text-[13px]',
               marked ? 'text-fg shadow-[inset_0_-2px_0_rgb(var(--accent-strong))]' : '',
             )}
@@ -53,13 +53,13 @@ function FrameInput() {
           </span>
         ))}
       </div>
-      <div className="mt-5 flex-1 rounded-xl border border-line-strong/70 bg-bg/60 p-4 sm:p-5">
+      <div className="mt-5 flex-1 rounded-xl border border-line-control bg-bg/60 p-4 sm:p-5">
         <MessageText marked={false} />
         <span className="ml-0.5 inline-block h-4 w-px translate-y-0.5 animate-pulse bg-accent" />
       </div>
       <div className="mt-4 flex items-center justify-between">
         <span className="font-mono text-[11px] text-subtle">214 caracteres</span>
-        <span className="rounded-lg bg-accent-strong px-4 py-2 text-sm font-medium text-white">Analizar</span>
+        <span className="rounded-lg bg-accent-strong px-4 py-2 text-sm font-medium text-accent-ink">Analizar</span>
       </div>
     </div>
   );
@@ -84,7 +84,7 @@ function FrameAnalyze({ active }: { active: boolean }) {
         {RULES.map((r, i) => (
           <li
             key={r.id}
-            className={cn('flex items-center gap-3 transition-opacity duration-500', active ? 'opacity-100' : 'opacity-0')}
+            className={cn('flex items-center gap-3 transition-opacity duration-slow', active ? 'opacity-100' : 'opacity-0')}
             style={{ transitionDelay: active ? `${i * 90}ms` : '0ms' }}
           >
             {r.hit ? <Check className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden /> : <Minus className="h-3.5 w-3.5 shrink-0 text-subtle" aria-hidden />}
@@ -118,7 +118,7 @@ function FrameScore({ active }: { active: boolean }) {
             </div>
             <div className="mt-2 h-1.5 bg-surface-3">
               <div
-                className="h-full bg-accent-strong transition-[width] duration-700 ease-out"
+                className="h-full bg-accent-strong transition-[width] duration-slow ease-out"
                 style={{ width: active ? `${s.points}%` : '0%', transitionDelay: active ? `${i * 120}ms` : '0ms' }}
               />
             </div>
@@ -126,7 +126,7 @@ function FrameScore({ active }: { active: boolean }) {
         ))}
       </ul>
       <div className="mt-8 flex items-baseline justify-between border-t border-line pt-5">
-        <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-subtle">Puntuación</span>
+        <span className="label text-subtle">Puntuación</span>
         <span className="font-wide text-4xl font-bold tabular-nums text-fg">
           {total}
           <span className="ml-1 font-mono text-sm font-normal text-subtle">/100</span>
@@ -179,7 +179,7 @@ export function FrameShell({ step, total, children, className }: { step: number;
       className={className}
       padding="lg"
       label={`Paso ${String(step + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`}
-      aside={<span className="font-mono text-[10px] uppercase tracking-[0.12em] text-subtle sm:text-[11px] sm:tracking-[0.16em]">Ejemplo ilustrativo</span>}
+      aside={<span className="label text-subtle">Ejemplo ilustrativo</span>}
     >
       {children}
     </Panel>

@@ -35,7 +35,7 @@ export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
         onChange={(e) => setValue(e.target.value)}
         onBlur={() => setTouched(true)}
         error={error}
-        className="font-mono text-[13px]"
+        mono
         hint="Copia el enlace con clic derecho → «Copiar dirección del enlace». No hace falta abrirlo."
         trailing={valid ? <CheckCircle2 className="mr-2.5 h-4 w-4 text-safe" aria-label="Formato válido" /> : undefined}
         aside={
@@ -45,7 +45,7 @@ export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
               setValue(ANALYZER_EXAMPLES.url);
               setTouched(true);
             }}
-            className="inline-flex items-center gap-1 rounded text-xs text-accent transition hover:text-accent-strong"
+            className="inline-flex items-center gap-1 rounded text-xs text-accent transition hover:text-fg"
           >
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
             Cargar ejemplo

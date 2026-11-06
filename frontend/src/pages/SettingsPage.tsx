@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/Badge';
 import { PageHeader } from '@/components/common/PageHeader';
 import { Section } from '@/components/common/Section';
 import { DemoTag } from '@/components/common/DemoNotice';
+import { userInitials } from '@/components/layout/AccountMenu';
 import { DEMO_USER } from '@/data/demoUser';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useToast } from '@/hooks/useToast';
@@ -49,8 +50,8 @@ export function SettingsPage() {
       <Section index={1} title="Perfil" description="Información básica asociada a tu cuenta.">
         <form onSubmit={saveProfile} noValidate className="space-y-5">
           <div className="flex items-center gap-4">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-strong font-semiwide text-lg font-semibold text-white">
-              {profile.name.charAt(0).toUpperCase() || '?'}
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-strong font-semiwide text-lg font-semibold text-accent-ink">
+              {userInitials(profile.name)}
             </span>
             <div>
               <p className="flex items-center gap-2 text-sm font-medium text-fg">

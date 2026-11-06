@@ -22,7 +22,7 @@ import type { AnalysisResult } from '@/types/analysis';
 import { ANALYSIS_TYPE_CONFIG, RISK_CONFIG } from '@/utils/risk';
 import { cn } from '@/utils/cn';
 
-const label = 'font-mono text-[11px] uppercase tracking-[0.16em] text-subtle';
+const label = 'label text-subtle';
 
 /** Cabecera del informe: nivel de riesgo protagonista y puntuación general con su escala. */
 function ReportSummary({ result }: { result: AnalysisResult }) {

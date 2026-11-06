@@ -19,8 +19,8 @@ export function Checkbox({ id, label, error, className, ...rest }: CheckboxProps
             aria-invalid={Boolean(error) || undefined}
             aria-describedby={error ? `${id}-error` : undefined}
             className={cn(
-              'peer h-4 w-4 cursor-pointer appearance-none rounded border bg-surface-2 transition checked:border-accent checked:bg-accent',
-              error ? 'border-danger/70' : 'border-line-strong group-hover:border-accent/60',
+              'peer h-4 w-4 cursor-pointer appearance-none rounded border bg-surface-2 transition checked:border-accent-strong checked:bg-accent-strong',
+              error ? 'border-danger/70' : 'border-line-control group-hover:border-accent',
             )}
             {...rest}
           />

@@ -57,7 +57,7 @@ export function LoginPage() {
   return (
     <>
       <p className="eyebrow">Acceso</p>
-      <h1 className="mt-5 font-semiwide text-[2.2rem] font-semibold uppercase leading-[1] text-fg sm:text-[2.6rem]">
+      <h1 className="mt-5 font-semiwide text-[2.2rem] font-semibold uppercase leading-[1] text-fg text-balance sm:text-[2.6rem]">
         Bienvenido <span className="text-accent-strong">de nuevo</span>
       </h1>
       <p className="mt-4 text-[17px] leading-relaxed text-muted">Inicia sesión para consultar tu historial de análisis.</p>
@@ -78,13 +78,12 @@ export function LoginPage() {
           id="password"
           label="Contraseña"
           autoComplete="current-password"
-          placeholder="••••••••"
           icon={KeyRound}
           value={values.password}
           onChange={(e) => set('password', e.target.value)}
           error={errors.password}
           aside={
-            <button type="button" onClick={() => notifyPending('La recuperación de contraseña')} className="rounded text-xs text-accent hover:text-accent-strong">
+            <button type="button" onClick={() => notifyPending('La recuperación de contraseña')} className="rounded text-xs text-accent hover:text-fg">
               ¿Olvidaste tu contraseña?
             </button>
           }
@@ -100,7 +99,7 @@ export function LoginPage() {
 
       <p className="mt-8 text-center text-sm text-muted">
         ¿No tienes cuenta?{' '}
-        <Link to="/register" className="font-medium text-accent hover:text-accent-strong">
+        <Link to="/register" className="font-medium text-accent hover:text-fg">
           Regístrate
         </Link>
       </p>

@@ -35,7 +35,7 @@ export function Footer() {
         </div>
         {COLUMNS.map((col) => (
           <nav key={col.title} aria-label={col.title} className="md:col-span-3">
-            <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-subtle" style={{ fontStretch: '100%' }}>
+            <h2 className="label text-subtle" style={{ fontStretch: '100%' }}>
               {col.title}
             </h2>
             <ul className="mt-5 space-y-3">

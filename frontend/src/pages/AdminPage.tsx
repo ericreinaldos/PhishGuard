@@ -57,7 +57,7 @@ export function AdminPage() {
         actions={<Badge tone="warning">Vista previa · sin permisos reales</Badge>}
       />
 
-      <nav aria-label="Secciones de administración" className="mb-10 flex gap-8 overflow-x-auto border-b border-line">
+      <nav aria-label="Secciones de administración" className="mb-10 flex gap-8 overflow-x-auto overflow-y-hidden shadow-[inset_0_-1px_0_rgb(var(--line))]">
         {SECTIONS.map(({ id, label }, i) => (
           <button
             key={id}
@@ -65,7 +65,7 @@ export function AdminPage() {
             onClick={() => selectSection(id, label)}
             aria-current={section === id ? 'page' : undefined}
             className={cn(
-              '-mb-px flex items-baseline gap-2 whitespace-nowrap border-b-2 pb-4 text-[15px] transition-colors',
+              'flex items-baseline gap-2 whitespace-nowrap border-b-2 pb-4 text-[15px] transition-colors',
               section === id ? 'border-accent-strong text-fg' : 'border-transparent text-muted hover:text-fg',
             )}
           >
@@ -93,11 +93,11 @@ export function AdminPage() {
       <Section index={2} layout="stacked" title="Uso y eventos">
         <div className="grid grid-cols-1 gap-x-10 gap-y-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.16em] text-subtle">Por tipo de análisis</p>
+            <p className="mb-6 label text-subtle">Por tipo de análisis</p>
             <HorizontalBars items={DEMO_ADMIN_TYPES.map((t) => ({ key: t.type, label: <TypeLabel type={t.type} />, value: t.count }))} />
           </div>
           <div className="min-w-0 lg:col-span-8">
-            <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.16em] text-subtle">Actividad reciente</p>
+            <p className="mb-3 label text-subtle">Actividad reciente</p>
             <DataTable columns={EVENT_COLUMNS} rows={DEMO_ADMIN_EVENTS} getRowKey={(e) => e.id} caption="Actividad reciente de la plataforma" />
           </div>
         </div>

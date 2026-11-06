@@ -16,7 +16,7 @@ export function Field({ id, label, hint, error, aside, children }: FieldProps) {
   return (
     <div className="space-y-2">
       <div className="flex min-h-[20px] items-center justify-between gap-2">
-        <label htmlFor={id} className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
+        <label htmlFor={id} className="label text-muted">
           {label}
         </label>
         {aside}
@@ -38,12 +38,15 @@ export function Field({ id, label, hint, error, aside, children }: FieldProps) {
   );
 }
 
+/** Tamaño del texto de un control: igual que el cuerpo; el contenido técnico baja a 14 px solo en pantallas grandes. */
+export const controlText = (mono?: boolean) => (mono ? 'font-mono text-base sm:text-sm' : 'text-base');
+
 /** Ids para aria-describedby según haya error o ayuda. */
 export const describedBy = (id: string, error?: string, hint?: ReactNode) =>
   error ? `${id}-error` : hint ? `${id}-hint` : undefined;
 
 export const controlBase =
-  'w-full rounded-lg border bg-bg/60 text-[15px] text-fg placeholder:text-subtle transition-colors focus:outline-none focus:ring-4 focus:ring-accent-strong/20 disabled:opacity-60';
+  'w-full rounded-lg border bg-bg/60 text-fg placeholder:text-subtle transition-colors focus:outline-none focus:ring-4 focus:ring-accent-strong/20 disabled:opacity-60';
 
 export const controlBorder = (invalid?: boolean) =>
-  invalid ? 'border-danger/70 focus:border-danger' : 'border-line-strong/70 hover:border-line-strong focus:border-accent';
+  invalid ? 'border-danger/70 focus:border-danger' : 'border-line-control hover:border-muted focus:border-accent';

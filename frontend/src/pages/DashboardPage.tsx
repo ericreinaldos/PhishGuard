@@ -49,17 +49,17 @@ export function DashboardPage() {
                 className="group relative flex items-center justify-between gap-4 overflow-hidden px-1 py-6 outline-none md:px-6 md:first:pl-0"
               >
                 <span
-                  className="absolute inset-0 origin-left scale-x-0 bg-accent-strong transition-transform duration-500 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                  className="absolute inset-0 origin-left scale-x-0 bg-accent-strong transition-transform duration-slow ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
                   aria-hidden
                 />
                 <span className="relative">
-                  <span className="font-mono text-[11px] text-subtle transition-colors group-hover:text-white/70">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="mt-2 block font-wide text-2xl font-bold uppercase leading-none text-fg transition-colors group-hover:text-white">
+                  <span className="font-mono text-[11px] text-subtle transition-colors group-hover:text-accent-ink/70">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="mt-2 block font-wide text-2xl font-bold uppercase leading-none text-fg transition-colors group-hover:text-accent-ink">
                     {ANALYSIS_TYPE_CONFIG[type].label}
                   </span>
-                  <span className="mt-2 block text-sm text-muted transition-colors group-hover:text-white/85">{text}</span>
+                  <span className="mt-2 block text-sm text-muted transition-colors group-hover:text-accent-ink/85">{text}</span>
                 </span>
-                <ArrowUpRight className="relative h-6 w-6 shrink-0 text-muted transition-[color,transform] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" aria-hidden />
+                <ArrowUpRight className="relative h-6 w-6 shrink-0 text-muted transition-[color,transform] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent-ink" aria-hidden />
               </Link>
             </li>
           ))}

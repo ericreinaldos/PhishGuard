@@ -1,6 +1,6 @@
 import { forwardRef, type ReactNode, type TextareaHTMLAttributes } from 'react';
 import { cn } from '@/utils/cn';
-import { Field, controlBase, controlBorder, describedBy } from './Field';
+import { Field, controlBase, controlBorder, controlText, describedBy } from './Field';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   id: string;
@@ -31,8 +31,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
           className={cn(
             controlBase,
             controlBorder(Boolean(error)),
+            controlText(mono),
             'block resize-y px-4 py-3 leading-relaxed',
-            mono && 'font-mono text-[13px]',
             showCount && 'pb-8',
             className,
           )}

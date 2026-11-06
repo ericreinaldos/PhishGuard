@@ -28,7 +28,7 @@ export function AccordionItem({ title, children, defaultOpen = false, index }: A
           <span className={cn('flex-1 text-lg font-medium transition-colors sm:text-xl', open ? 'text-fg' : 'text-fg/85 group-hover:text-fg')}>{title}</span>
           <span className="relative h-4 w-4 shrink-0 self-center" aria-hidden>
             <span className="absolute left-0 top-1/2 h-px w-4 bg-current text-muted" />
-            <span className={cn('absolute left-1/2 top-0 h-4 w-px bg-current text-muted transition-transform duration-300 ease-out', open && 'scale-y-0')} />
+            <span className={cn('absolute left-1/2 top-0 h-4 w-px bg-current text-muted transition-transform duration-base ease-out', open && 'scale-y-0')} />
           </span>
         </button>
       </h3>
@@ -36,7 +36,7 @@ export function AccordionItem({ title, children, defaultOpen = false, index }: A
         id={`${id}-panel`}
         role="region"
         aria-labelledby={`${id}-trigger`}
-        className={cn('grid transition-[grid-template-rows] duration-300 ease-out', open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')}
+        className={cn('grid transition-[grid-template-rows] duration-base ease-out', open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')}
       >
         <div className="overflow-hidden" {...(open ? {} : { inert: '' })}>
           <div className={cn('max-w-2xl pb-7 text-[15px] leading-relaxed text-muted', index !== undefined && 'sm:pl-12 pl-10')}>{children}</div>

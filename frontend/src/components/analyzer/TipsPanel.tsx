@@ -16,7 +16,7 @@ export function TipsPanel({ className }: { className?: string }) {
           ))}
         </ol>
         <div className="mt-8 border-t border-line pt-6">
-          <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-subtle">
+          <p className="flex items-center gap-2 label text-subtle">
             <Lock className="h-3.5 w-3.5" aria-hidden />
             Privacidad
           </p>

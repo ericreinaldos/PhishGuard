@@ -18,7 +18,7 @@ export function Panel({ label, aside, padding = 'md', className, children, ...re
     <div className={cn('flex flex-col overflow-hidden rounded-2xl border border-line bg-surface', className)} {...rest}>
       {(label || aside) && (
         <div className="flex min-h-[44px] items-center justify-between gap-4 border-b border-line px-5 py-2.5 sm:px-6">
-          {label && <div className="truncate font-mono text-[11px] uppercase tracking-[0.16em] text-subtle">{label}</div>}
+          {label && <div className="truncate label text-subtle">{label}</div>}
           {aside && <div className="shrink-0">{aside}</div>}
         </div>
       )}

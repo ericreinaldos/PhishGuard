@@ -28,7 +28,6 @@ export function MessageForm({ onSubmit, busy }: AnalyzerFormProps) {
         label="Contenido del mensaje"
         placeholder="Pega aquí el mensaje que te ha llegado y lo analizamos."
         rows={12}
-        className="text-base"
         value={value}
         maxLength={MESSAGE_MAX_LENGTH}
         showCount
@@ -42,7 +41,7 @@ export function MessageForm({ onSubmit, busy }: AnalyzerFormProps) {
           <button
             type="button"
             onClick={() => setValue(ANALYZER_EXAMPLES.message)}
-            className="inline-flex items-center gap-1 rounded text-xs text-accent transition hover:text-accent-strong"
+            className="inline-flex items-center gap-1 rounded text-xs text-accent transition hover:text-fg"
           >
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
             Cargar ejemplo

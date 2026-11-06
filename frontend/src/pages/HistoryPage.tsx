@@ -30,7 +30,7 @@ function FilterChips<T extends string>({
   const all = [{ id: 'all' as const, label: 'Todos' }, ...options];
   return (
     <div role="group" aria-label={label} className="flex flex-wrap items-center gap-x-5 gap-y-2">
-      <span className="w-16 font-mono text-[11px] uppercase tracking-[0.16em] text-subtle">{label}</span>
+      <span className="w-16 label text-subtle">{label}</span>
       {all.map((opt) => {
         const active = value === opt.id;
         return (
@@ -123,7 +123,7 @@ export function HistoryPage() {
             </div>
           </div>
 
-          <p className="mb-2 mt-8 font-mono text-[11px] uppercase tracking-[0.16em] text-subtle" aria-live="polite">
+          <p className="mb-2 mt-8 label text-subtle" aria-live="polite">
             {rows.length} de {source.length} análisis
           </p>
 

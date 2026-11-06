@@ -52,7 +52,7 @@ export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
           <button
             type="button"
             onClick={() => setValue(ANALYZER_EXAMPLES.headers)}
-            className="inline-flex items-center gap-1 rounded text-xs text-accent transition hover:text-accent-strong"
+            className="inline-flex items-center gap-1 rounded text-xs text-accent transition hover:text-fg"
           >
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
             Cargar ejemplo

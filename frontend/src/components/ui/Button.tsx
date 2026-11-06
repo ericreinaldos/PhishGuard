@@ -28,7 +28,7 @@ interface StyleProps {
 
 export function buttonClasses({ variant = 'primary', size = 'md', fullWidth }: StyleProps = {}) {
   return cn(
-    'inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-lg font-medium transition-colors duration-150 ease-out',
+    'inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-lg font-medium transition-[color,background-color,border-color,transform] duration-fast ease-out',
     'disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]',
     VARIANTS[variant],
     SIZES[size],

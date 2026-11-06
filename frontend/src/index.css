@@ -17,6 +17,7 @@
   /* Bordes */
   --line: 48 48 48;
   --line-strong: 72 72 72;
+  --line-control: 108 108 105; /* #6c6c69 · bordes de controles (3,56:1 sobre fondo) */
 
   /* Texto */
   --fg: 242 242 240;
@@ -49,6 +50,7 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-fast: 150ms;
   --duration: 300ms;
+  --duration-slow: 500ms;
 
   color-scheme: dark;
 }
@@ -59,12 +61,7 @@
   }
   body {
     @apply bg-bg font-sans text-fg antialiased;
-    font-size: 15px;
-  }
-  @media (min-width: 640px) {
-    body {
-      font-size: 16px;
-    }
+    font-size: 16px;
   }
   h1,
   h2,
@@ -113,6 +110,10 @@ html.lenis body {
   .container-page {
     @apply mx-auto w-full max-w-[88rem];
     padding-inline: var(--gutter);
+  }
+  /* Etiqueta técnica: campos, cabeceras de tabla y rótulos de datos */
+  .label {
+    @apply font-mono text-xs uppercase tracking-[0.14em];
   }
   .eyebrow {
     @apply inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted;
