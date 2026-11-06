@@ -9,12 +9,14 @@ import { gsap, MOTION_OK, useGSAP } from '@/lib/gsap';
  * El contenido es visible por defecto: el estado inicial solo lo aplica GSAP cuando
  * el usuario no ha pedido reducir el movimiento. useGSAP revierte todo al desmontar,
  * así que no quedan disparadores duplicados al cambiar de ruta.
+ *
+ * Con `enabled` a false no anima nada y el contenido se muestra directamente.
  */
-export function useReveal(scope: RefObject<HTMLElement>) {
+export function useReveal(scope: RefObject<HTMLElement>, enabled = true) {
   useGSAP(
     () => {
       const root = scope.current;
-      if (!root) return;
+      if (!root || !enabled) return;
       const mm = gsap.matchMedia();
 
       mm.add(MOTION_OK, () => {

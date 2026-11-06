@@ -1,5 +1,5 @@
 import { useRef, type ReactNode } from 'react';
-import { gsap, MOTION_OK, useGSAP } from '@/lib/gsap';
+import { APP_MOTION, gsap, MOTION_OK, useGSAP } from '@/lib/gsap';
 import { cn } from '@/utils/cn';
 import { Rule } from './Rule';
 
@@ -14,7 +14,7 @@ interface PageHeaderProps {
  * Cabecera de las páginas interiores, con el mismo lenguaje que la home:
  * etiqueta técnica opcional, titular en mayúsculas, descripción gris y línea con segmento azul.
  * Más compacta que la portada para que el trabajo quede cerca del inicio de la página.
- * Entrada breve (≈0,6 s) que nunca bloquea la interacción.
+ * Su entrada depende de APP_MOTION y nunca bloquea la interacción.
  */
 export function PageHeader({ title, description, actions, eyebrow }: PageHeaderProps) {
   const scope = useRef<HTMLElement>(null);
@@ -23,6 +23,10 @@ export function PageHeader({ title, description, actions, eyebrow }: PageHeaderP
     () => {
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
+        if (APP_MOTION === 'subtle') {
+          gsap.from('[data-intro], [data-intro-rule]', { autoAlpha: 0, duration: 0.25, ease: 'power1.out' });
+          return;
+        }
         gsap
           .timeline({ defaults: { ease: 'power3.out' } })
           .from('[data-intro]', { autoAlpha: 0, y: 14, duration: 0.55, stagger: 0.06 })

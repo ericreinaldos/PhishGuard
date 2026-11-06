@@ -15,4 +15,12 @@ if (typeof document !== 'undefined' && 'fonts' in document) {
 /** Media query que envuelve toda animación con movimiento. */
 export const MOTION_OK = '(prefers-reduced-motion: no-preference)';
 
+/**
+ * Movimiento de las páginas de la app (la portada no depende de esto).
+ * - `subtle`: cabecera con un fundido breve y secciones visibles desde el inicio.
+ * - `full`: entrada completa de la cabecera y revelado de cada sección al hacer scroll.
+ * Cambiar este valor es lo único necesario para volver a la versión anterior.
+ */
+export const APP_MOTION: 'full' | 'subtle' = 'subtle';
+
 export { gsap, ScrollTrigger, useGSAP };
