@@ -15,7 +15,7 @@ export function AppLayout() {
         Saltar al contenido
       </a>
       <AppNavbar />
-      <main id="contenido" tabIndex={-1} className="container-page flex-1 pb-20 pt-28 outline-none sm:pt-32">
+      <main id="contenido" tabIndex={-1} className="container-page flex-1 pb-20 pt-24 outline-none sm:pt-28">
         <Outlet />
       </main>
       <footer className="container-page">

@@ -29,7 +29,7 @@ export function MessageForm({ onSubmit, busy }: AnalyzerFormProps) {
         id="message-input"
         label="Contenido del mensaje"
         placeholder="Pega aquí el mensaje que te ha llegado y lo analizamos."
-        rows={12}
+        rows={8}
         value={value}
         maxLength={MESSAGE_MAX_LENGTH}
         showCount

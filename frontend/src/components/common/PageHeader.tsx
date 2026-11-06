@@ -31,7 +31,7 @@ export function PageHeader({ title, description, actions, eyebrow }: PageHeaderP
   );
 
   return (
-    <header ref={scope} className="mb-12 sm:mb-16">
+    <header ref={scope} className="mb-8 sm:mb-10">
       {eyebrow && (
         <p className="eyebrow" data-intro>
           {eyebrow}
@@ -39,17 +39,17 @@ export function PageHeader({ title, description, actions, eyebrow }: PageHeaderP
       )}
       <h1
         data-intro
-        className="mt-6 max-w-5xl font-semiwide text-[2.3rem] font-semibold uppercase leading-[0.98] text-fg text-balance sm:text-[3.4rem] lg:text-[4.2rem]"
+        className="mt-4 max-w-5xl font-semiwide text-[2rem] font-semibold uppercase leading-[1] text-fg text-balance sm:text-[2.5rem] lg:text-[3rem]"
       >
         {title}
       </h1>
       {(description || actions) && (
-        <div className="mt-6 flex flex-col gap-6 sm:mt-8 lg:flex-row lg:items-end lg:justify-between" data-intro>
-          {description && <p className="max-w-xl text-[17px] leading-relaxed text-muted">{description}</p>}
+        <div className="mt-3 flex flex-col gap-4 sm:mt-4 lg:flex-row lg:items-end lg:justify-between" data-intro>
+          {description && <p className="max-w-3xl text-base leading-relaxed text-muted">{description}</p>}
           {actions && <div className="flex shrink-0 flex-wrap gap-3">{actions}</div>}
         </div>
       )}
-      <Rule className="mt-10 sm:mt-12" data-intro-rule="" />
+      <Rule className="mt-6 sm:mt-8" data-intro-rule="" />
     </header>
   );
 }
