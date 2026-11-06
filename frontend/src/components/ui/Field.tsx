@@ -23,7 +23,7 @@ export function Field({ id, label, hint, error, aside, children }: FieldProps) {
       </div>
       {children}
       {error ? (
-        <p id={`${id}-error`} className="flex items-center gap-1.5 text-xs text-danger">
+        <p id={`${id}-error`} role="alert" className="flex items-center gap-1.5 text-xs text-danger">
           <AlertCircle className="h-3.5 w-3.5 shrink-0" aria-hidden />
           {error}
         </p>

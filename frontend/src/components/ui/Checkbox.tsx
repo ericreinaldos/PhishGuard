@@ -11,7 +11,7 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'typ
 export function Checkbox({ id, label, error, className, ...rest }: CheckboxProps) {
   return (
     <div className={className}>
-      <label htmlFor={id} className="group inline-flex cursor-pointer items-start gap-2.5 text-sm text-muted">
+      <label htmlFor={id} className="group inline-flex min-h-6 cursor-pointer items-start gap-2.5 text-sm text-muted">
         <span className="relative mt-0.5 flex h-4 w-4 shrink-0">
           <input
             id={id}
@@ -29,7 +29,7 @@ export function Checkbox({ id, label, error, className, ...rest }: CheckboxProps
         <span className="leading-snug">{label}</span>
       </label>
       {error && (
-        <p id={`${id}-error`} className="mt-1 text-xs text-danger">
+        <p id={`${id}-error`} role="alert" className="mt-1 text-xs text-danger">
           {error}
         </p>
       )}

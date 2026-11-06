@@ -15,13 +15,13 @@ export function AppLayout() {
         Saltar al contenido
       </a>
       <AppNavbar />
-      <main id="contenido" className="container-page flex-1 pb-20 pt-28 sm:pt-32">
+      <main id="contenido" tabIndex={-1} className="container-page flex-1 pb-20 pt-28 outline-none sm:pt-32">
         <Outlet />
       </main>
       <footer className="container-page">
         <div className="flex flex-col gap-2 border-t border-line py-6 font-mono text-[11px] text-subtle sm:flex-row sm:justify-between">
           <p>PhishGuard · v0.3.0 · frontend sin backend</p>
-          <Link to="/" className="transition-colors hover:text-fg">
+          <Link to="/" className="py-1 transition-colors hover:text-fg">
             Volver a la web pública
           </Link>
         </div>

@@ -77,7 +77,7 @@ export function DashboardPage() {
               </span>
             }
             action={
-              <Link to="/history" className="inline-flex items-center gap-1.5 text-sm text-accent transition-colors hover:text-fg">
+              <Link to="/history" className="inline-flex min-h-6 items-center gap-1.5 text-sm text-accent transition-colors hover:text-fg">
                 Ver historial <ArrowRight className="h-3.5 w-3.5" aria-hidden />
               </Link>
             }

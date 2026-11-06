@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/useToast';
 import { login } from '@/services/authService';
 import { isServiceUnavailable } from '@/services/apiClient';
 import type { LoginCredentials } from '@/types/user';
+import { focusFirstInvalid } from '@/utils/focus';
 import { isValidEmail } from '@/utils/validation';
 
 type Errors = Partial<Record<'email' | 'password', string>>;
@@ -40,7 +41,10 @@ export function LoginPage() {
     const found = validate(values);
     setErrors(found);
     setNotice(null);
-    if (Object.keys(found).length) return;
+    if (Object.keys(found).length) {
+      focusFirstInvalid(e.currentTarget as HTMLFormElement);
+      return;
+    }
 
     setSubmitting(true);
     try {
@@ -82,13 +86,13 @@ export function LoginPage() {
           value={values.password}
           onChange={(e) => set('password', e.target.value)}
           error={errors.password}
-          aside={
-            <button type="button" onClick={() => notifyPending('La recuperación de contraseña')} className="rounded text-xs text-accent hover:text-fg">
-              ¿Olvidaste tu contraseña?
-            </button>
-          }
         />
-        <Checkbox id="remember" label="Recordarme en este dispositivo" checked={values.remember} onChange={(e) => set('remember', e.target.checked)} />
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+          <Checkbox id="remember" label="Recordarme en este dispositivo" checked={values.remember} onChange={(e) => set('remember', e.target.checked)} />
+          <button type="button" onClick={() => notifyPending('La recuperación de contraseña')} className="inline-flex min-h-6 items-center rounded text-xs text-accent transition-colors hover:text-fg">
+            ¿Olvidaste tu contraseña?
+          </button>
+        </div>
 
         {notice && <Alert tone="info" title="Autenticación pendiente de integración">{notice}</Alert>}
 

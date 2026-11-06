@@ -18,7 +18,7 @@ export function PublicLayout() {
         Saltar al contenido
       </a>
       <Navbar />
-      <main id="contenido" className="flex-1">
+      <main id="contenido" tabIndex={-1} className="flex-1 outline-none">
         <Outlet />
       </main>
       <Footer />

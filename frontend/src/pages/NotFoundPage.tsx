@@ -12,7 +12,7 @@ export function NotFoundPage() {
       <div className="container-page flex h-16 items-center">
         <Logo />
       </div>
-      <main className="container-page flex flex-1 flex-col justify-center py-16">
+      <main id="contenido" tabIndex={-1} className="container-page flex flex-1 flex-col justify-center py-16 outline-none">
         <p
           className="select-none whitespace-nowrap font-wide font-bold leading-[0.8] tracking-[-0.04em] text-fg"
           style={{ fontSize: 'min(34vw, 20rem)' }}

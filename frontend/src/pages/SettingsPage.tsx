@@ -13,6 +13,7 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useToast } from '@/hooks/useToast';
 import { useVisualLogout } from '@/hooks/useVisualLogout';
 import { formatDate } from '@/utils/format';
+import { focusFirstInvalid } from '@/utils/focus';
 import { isValidEmail } from '@/utils/validation';
 
 export function SettingsPage() {
@@ -29,6 +30,7 @@ export function SettingsPage() {
     e.preventDefault();
     if (!isValidEmail(profile.email)) {
       setEmailError('Introduce un correo electrónico válido.');
+      focusFirstInvalid(e.currentTarget as HTMLFormElement);
       return;
     }
     setEmailError(undefined);

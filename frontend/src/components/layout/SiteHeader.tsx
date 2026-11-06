@@ -31,6 +31,7 @@ export function SiteHeader({ links, isActive, actions, mobileActions, logoTo = '
   const location = useLocation();
   const { lenis } = useSmoothScroll();
   const firstLink = useRef<HTMLAnchorElement>(null);
+  const toggle = useRef<HTMLButtonElement>(null);
 
   useEffect(() => setOpen(false), [location.pathname, location.hash, location.key]);
 
@@ -41,15 +42,22 @@ export function SiteHeader({ links, isActive, actions, mobileActions, logoTo = '
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Menú móvil: bloquea el scroll de fondo, enfoca el primer enlace y se cierra con Escape
+  // Menú móvil: bloquea el scroll y el foco del fondo, enfoca el primer enlace y se cierra con Escape
   useEffect(() => {
     if (!open) return;
     lenis?.stop();
     document.body.style.overflow = 'hidden';
+    const background = document.querySelectorAll<HTMLElement>('main, footer');
+    background.forEach((el) => el.setAttribute('inert', ''));
     firstLink.current?.focus();
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      setOpen(false);
+      toggle.current?.focus();
+    };
     window.addEventListener('keydown', onKey);
     return () => {
+      background.forEach((el) => el.removeAttribute('inert'));
       lenis?.start();
       document.body.style.overflow = '';
       window.removeEventListener('keydown', onKey);
@@ -87,8 +95,9 @@ export function SiteHeader({ links, isActive, actions, mobileActions, logoTo = '
         <div className="hidden items-center justify-end gap-5 lg:flex">{actions}</div>
 
         <button
+          ref={toggle}
           type="button"
-          className="-mr-2 flex h-10 items-center gap-3 justify-self-end px-2 font-mono text-[11px] uppercase tracking-[0.2em] text-fg lg:hidden"
+          className="-mr-2 flex h-11 items-center gap-3 justify-self-end px-2 font-mono text-[11px] uppercase tracking-[0.2em] text-fg lg:hidden"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
           aria-controls="mobile-menu"
@@ -102,7 +111,12 @@ export function SiteHeader({ links, isActive, actions, mobileActions, logoTo = '
       </nav>
 
       {open && (
-        <div id="mobile-menu" className="fixed inset-x-0 bottom-0 top-16 flex flex-col overflow-y-auto bg-bg lg:hidden">
+        <div
+          id="mobile-menu"
+          className="fixed inset-x-0 bottom-0 top-16 flex flex-col overflow-y-auto bg-bg lg:hidden"
+          // Cierra en el mismo render que la navegación para que `main` pueda recibir el foco
+          onClick={(e) => (e.target as HTMLElement).closest('a') && setOpen(false)}
+        >
           <ul className="container-page flex-1 pt-6">
             {links.map((item, i) => (
               <li key={item.to} className="animate-fade-up border-b border-line" style={{ animationDelay: `${i * 50}ms` }}>

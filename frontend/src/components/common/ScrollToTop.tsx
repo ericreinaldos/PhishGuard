@@ -1,21 +1,28 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 
 /**
  * Gestiona el scroll al navegar:
  * - Con ancla (#seccion): desplaza hasta ella (Lenis o nativo).
- * - Sin ancla: vuelve arriba al instante.
+ * - Sin ancla: vuelve arriba al instante y, si cambia la página, lleva el foco al contenido.
  * Depende de `key` para que repetir el mismo enlace también desplace.
  */
 export function ScrollToTop() {
   const { pathname, hash, key } = useLocation();
   const { scrollTo } = useSmoothScroll();
+  const previousPath = useRef(pathname);
 
   useEffect(() => {
+    const pageChanged = previousPath.current !== pathname;
+    previousPath.current = pathname;
+
     if (!hash) {
       scrollTo(0, { immediate: true });
-      return;
+      if (!pageChanged) return;
+      // Espera un frame: el menú móvil debe haber liberado `main` antes de recibir el foco
+      const id = requestAnimationFrame(() => document.getElementById('contenido')?.focus({ preventScroll: true }));
+      return () => cancelAnimationFrame(id);
     }
     // Espera un frame para que la página de destino haya pintado su contenido
     const id = requestAnimationFrame(() => {

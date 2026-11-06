@@ -9,6 +9,7 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useToast } from '@/hooks/useToast';
 import { register } from '@/services/authService';
 import { isServiceUnavailable } from '@/services/apiClient';
+import { focusFirstInvalid } from '@/utils/focus';
 import { checkPassword, isStrongPassword, isValidEmail } from '@/utils/validation';
 import { cn } from '@/utils/cn';
 
@@ -51,7 +52,10 @@ export function RegisterPage() {
     const found = validate(values);
     setErrors(found);
     setNotice(false);
-    if (Object.keys(found).length) return;
+    if (Object.keys(found).length) {
+      focusFirstInvalid(e.currentTarget as HTMLFormElement);
+      return;
+    }
 
     setSubmitting(true);
     try {

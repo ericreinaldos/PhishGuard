@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Sparkles } from 'lucide-react';
 import { Textarea } from '@/components/ui/Textarea';
+import { focusFirstInvalid } from '@/utils/focus';
 import { FormActions } from './FormActions';
 import { ANALYZER_EXAMPLES, MESSAGE_MAX_LENGTH } from '@/data/analyzerExamples';
 import type { AnalyzerFormProps } from './types';
@@ -15,6 +16,7 @@ export function MessageForm({ onSubmit, busy }: AnalyzerFormProps) {
     e.preventDefault();
     if (value.trim().length < MIN_LENGTH) {
       setError(`Pega el mensaje completo (mínimo ${MIN_LENGTH} caracteres) para obtener un análisis útil.`);
+      focusFirstInvalid(e.currentTarget as HTMLFormElement);
       return;
     }
     setError(undefined);
@@ -41,7 +43,7 @@ export function MessageForm({ onSubmit, busy }: AnalyzerFormProps) {
           <button
             type="button"
             onClick={() => setValue(ANALYZER_EXAMPLES.message)}
-            className="inline-flex items-center gap-1 rounded text-xs text-accent transition hover:text-fg"
+            className="inline-flex min-h-6 items-center gap-1 rounded text-xs text-accent transition-colors hover:text-fg"
           >
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
             Cargar ejemplo

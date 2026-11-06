@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { CheckCircle2, Globe, Sparkles } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { ANALYZER_EXAMPLES } from '@/data/analyzerExamples';
+import { focusFirstInvalid } from '@/utils/focus';
 import { isValidUrl } from '@/utils/validation';
 import { FormActions } from './FormActions';
 import type { AnalyzerFormProps } from './types';
@@ -9,14 +10,27 @@ import type { AnalyzerFormProps } from './types';
 export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
   const [value, setValue] = useState('');
   const [touched, setTouched] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const valid = isValidUrl(value);
-  const error = touched && value.length > 0 && !valid ? 'No parece una dirección web válida (ej. https://dominio.com/ruta).' : undefined;
+  const error = valid
+    ? undefined
+    : value.length > 0
+      ? touched
+        ? 'No parece una dirección web válida (ej. https://dominio.com/ruta).'
+        : undefined
+      : submitted
+        ? 'Pega la dirección web que quieres comprobar.'
+        : undefined;
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setTouched(true);
-    if (!valid) return;
+    setSubmitted(true);
+    if (!valid) {
+      focusFirstInvalid(e.currentTarget as HTMLFormElement);
+      return;
+    }
     onSubmit({ type: 'url', content: value.trim() });
   };
 
@@ -45,7 +59,7 @@ export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
               setValue(ANALYZER_EXAMPLES.url);
               setTouched(true);
             }}
-            className="inline-flex items-center gap-1 rounded text-xs text-accent transition hover:text-fg"
+            className="inline-flex min-h-6 items-center gap-1 rounded text-xs text-accent transition-colors hover:text-fg"
           >
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
             Cargar ejemplo
@@ -71,6 +85,7 @@ export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
         onClear={() => {
           setValue('');
           setTouched(false);
+          setSubmitted(false);
         }}
       />
     </form>

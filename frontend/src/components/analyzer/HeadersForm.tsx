@@ -3,6 +3,7 @@ import { Sparkles } from 'lucide-react';
 import { Textarea } from '@/components/ui/Textarea';
 import { Alert } from '@/components/ui/Alert';
 import { ANALYZER_EXAMPLES, HEADERS_MAX_LENGTH } from '@/data/analyzerExamples';
+import { focusFirstInvalid } from '@/utils/focus';
 import { looksLikeEmailHeaders } from '@/utils/validation';
 import { FormActions } from './FormActions';
 import type { AnalyzerFormProps } from './types';
@@ -24,6 +25,7 @@ export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
     e.preventDefault();
     if (!value.trim()) {
       setError('Pega las cabeceras del correo para analizarlas.');
+      focusFirstInvalid(e.currentTarget as HTMLFormElement);
       return;
     }
     setError(undefined);
@@ -52,7 +54,7 @@ export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
           <button
             type="button"
             onClick={() => setValue(ANALYZER_EXAMPLES.headers)}
-            className="inline-flex items-center gap-1 rounded text-xs text-accent transition hover:text-fg"
+            className="inline-flex min-h-6 items-center gap-1 rounded text-xs text-accent transition-colors hover:text-fg"
           >
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
             Cargar ejemplo

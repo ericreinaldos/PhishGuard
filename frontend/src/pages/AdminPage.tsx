@@ -65,7 +65,7 @@ export function AdminPage() {
             onClick={() => selectSection(id, label)}
             aria-current={section === id ? 'page' : undefined}
             className={cn(
-              'flex items-baseline gap-2 whitespace-nowrap border-b-2 pb-4 text-[15px] transition-colors',
+              'flex items-baseline gap-2 whitespace-nowrap border-b-2 pb-4 pt-1 text-[15px] transition-colors',
               section === id ? 'border-accent-strong text-fg' : 'border-transparent text-muted hover:text-fg',
             )}
           >

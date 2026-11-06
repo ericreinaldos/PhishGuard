@@ -38,10 +38,10 @@ export function Footer() {
             <h2 className="label text-subtle" style={{ fontStretch: '100%' }}>
               {col.title}
             </h2>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-5 space-y-1">
               {col.links.map((link) => (
                 <li key={link.to}>
-                  <Link to={link.to} className="text-[15px] text-muted transition-colors hover:text-fg">
+                  <Link to={link.to} className="inline-block py-1 text-[15px] text-muted transition-colors hover:text-fg">
                     {link.label}
                   </Link>
                 </li>

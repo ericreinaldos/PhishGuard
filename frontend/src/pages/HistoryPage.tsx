@@ -40,7 +40,7 @@ function FilterChips<T extends string>({
             aria-pressed={active}
             onClick={() => onChange(opt.id)}
             className={cn(
-              'relative py-1 text-[15px] transition-colors',
+              'relative py-3 text-[15px] transition-colors lg:py-1',
               active ? 'text-fg after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:bg-accent-strong' : 'text-muted hover:text-fg',
             )}
           >
