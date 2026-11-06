@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Download, FileBarChart2, FlaskConical, ScanSearch, Share2 } from 'lucide-react';
+import { ArrowLeft, Download, FileBarChart2, FlaskConical, History, ScanSearch, Share2 } from 'lucide-react';
 import { Alert } from '@/components/ui/Alert';
 import { Button, ButtonLink } from '@/components/ui/Button';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -152,15 +152,18 @@ export function ResultsPage() {
       ) : (
         <EmptyState
           icon={FileBarChart2}
-          title="Todavía no hay ningún resultado"
-          description="Cuando el motor de reglas esté conectado, aquí verás el informe completo de cada análisis."
+          title="Elige un análisis para ver su informe"
+          description="Los informes se abren desde el historial. También puedes analizar algo nuevo o ver un ejemplo. El motor de reglas aún no está conectado, así que todavía no se generan informes reales."
           action={
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <ButtonLink to="/analyzer" leftIcon={ScanSearch}>
-                Ir al analizador
+            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+              <ButtonLink to="/history" leftIcon={History}>
+                Ir al historial
               </ButtonLink>
-              <Button variant="outline" leftIcon={FlaskConical} onClick={() => setParams({ demo: '1' })}>
-                Ver ejemplo de demostración
+              <ButtonLink to="/analyzer" variant="outline" leftIcon={ScanSearch}>
+                Nuevo análisis
+              </ButtonLink>
+              <Button variant="ghost" leftIcon={FlaskConical} onClick={() => setParams({ demo: '1' })}>
+                Ver ejemplo
               </Button>
             </div>
           }

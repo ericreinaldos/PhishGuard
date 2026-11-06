@@ -17,7 +17,7 @@ export function AppNavbar() {
       solid
       logoTo="/dashboard"
       links={APP_NAV}
-      isActive={(to) => pathname.startsWith(to)}
+      isActive={(to) => pathname.startsWith(to) || (to === '/history' && pathname.startsWith('/results'))}
       actions={
         <>
           {pathname !== '/analyzer' && (

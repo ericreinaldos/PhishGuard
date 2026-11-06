@@ -11,11 +11,13 @@ export const PUBLIC_NAV: readonly NavItem[] = [
   { label: 'Preguntas', to: '/#faq' },
 ];
 
-/** Secciones de la aplicación. Perfil, notificaciones y cierre de sesión están en el menú de cuenta. */
+/**
+ * Secciones de la aplicación. Perfil, notificaciones y cierre de sesión están en el menú de cuenta.
+ * Los informes (/results) se abren desde el historial, que queda activo mientras se consultan.
+ */
 export const APP_NAV: readonly NavItem[] = [
   { label: 'Panel', to: '/dashboard' },
   { label: 'Analizador', to: '/analyzer' },
-  { label: 'Resultados', to: '/results' },
   { label: 'Historial', to: '/history' },
   { label: 'Administración', to: '/admin' },
 ];
