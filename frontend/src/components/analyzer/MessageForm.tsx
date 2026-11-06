@@ -9,8 +9,7 @@ import type { AnalyzerFormProps } from './types';
 
 const MIN_LENGTH = 20;
 
-export function MessageForm({ onSubmit, busy }: AnalyzerFormProps) {
-  const [value, setValue] = useState('');
+export function MessageForm({ onSubmit, busy, value, onValueChange }: AnalyzerFormProps) {
   const [error, setError] = useState<string>();
 
   const handleSubmit = (e: FormEvent) => {
@@ -35,7 +34,7 @@ export function MessageForm({ onSubmit, busy }: AnalyzerFormProps) {
         maxLength={MESSAGE_MAX_LENGTH}
         showCount
         onChange={(e) => {
-          setValue(e.target.value);
+          onValueChange(e.target.value);
           if (error) setError(undefined);
         }}
         error={error}
@@ -43,7 +42,7 @@ export function MessageForm({ onSubmit, busy }: AnalyzerFormProps) {
         aside={
           <button
             type="button"
-            onClick={() => setValue(ANALYZER_EXAMPLES.message)}
+            onClick={() => onValueChange(ANALYZER_EXAMPLES.message)}
             className="inline-flex min-h-6 items-center gap-1 rounded text-xs text-accent transition-colors hover:text-fg"
           >
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
@@ -51,7 +50,7 @@ export function MessageForm({ onSubmit, busy }: AnalyzerFormProps) {
           </button>
         }
       />
-      <FormActions busy={busy} canClear={value.length > 0} onClear={() => setValue('')} />
+      <FormActions busy={busy} canClear={value.length > 0} onClear={() => onValueChange('')} />
     </form>
   );
 }

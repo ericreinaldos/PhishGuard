@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Tabs, type TabItem } from '@/components/ui/Tabs';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -39,6 +40,8 @@ export function AnalyzerPage() {
   const modeParam = params.get('mode');
   const mode: AnalysisType = isAnalysisType(modeParam) ? modeParam : 'message';
   const { status, submit, reset } = useAnalysisSubmit();
+  // Solo en memoria: el contenido analizado puede incluir datos personales y no debe persistir
+  const [drafts, setDrafts] = useState<Record<AnalysisType, string>>({ message: '', url: '', headers: '' });
 
   const changeMode = (next: AnalysisType) => {
     setParams(next === 'message' ? {} : { mode: next }, { replace: true });
@@ -72,8 +75,14 @@ export function AnalyzerPage() {
           role="tabpanel"
           aria-labelledby={`analyzer-tab-${mode}`}
         >
-          {/* key fuerza un formulario limpio al cambiar de modalidad */}
-          <Form key={mode} onSubmit={submit} busy={status.state === 'loading'} />
+          {/* key reinicia los errores al cambiar de modalidad; el texto se conserva en drafts */}
+          <Form
+            key={mode}
+            onSubmit={submit}
+            busy={status.state === 'loading'}
+            value={drafts[mode]}
+            onValueChange={(value) => setDrafts((d) => ({ ...d, [mode]: value }))}
+          />
         </Panel>
         <TipsPanel className="lg:col-span-4" />
       </div>

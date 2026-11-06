@@ -16,8 +16,7 @@ const CLIENTS = [
   { name: 'Thunderbird', path: 'Ver → Código fuente del mensaje' },
 ];
 
-export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
-  const [value, setValue] = useState('');
+export function HeadersForm({ onSubmit, busy, value, onValueChange }: AnalyzerFormProps) {
   const [error, setError] = useState<string>();
 
   const showFormatWarning = value.trim().length > 40 && !looksLikeEmailHeaders(value);
@@ -46,7 +45,7 @@ export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
         maxLength={HEADERS_MAX_LENGTH}
         showCount
         onChange={(e) => {
-          setValue(e.target.value);
+          onValueChange(e.target.value);
           if (error) setError(undefined);
         }}
         error={error}
@@ -54,7 +53,7 @@ export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
         aside={
           <button
             type="button"
-            onClick={() => setValue(ANALYZER_EXAMPLES.headers)}
+            onClick={() => onValueChange(ANALYZER_EXAMPLES.headers)}
             className="inline-flex min-h-6 items-center gap-1 rounded text-xs text-accent transition-colors hover:text-fg"
           >
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
@@ -88,7 +87,7 @@ export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
         </dl>
       </details>
 
-      <FormActions busy={busy} canClear={value.length > 0} onClear={() => setValue('')} />
+      <FormActions busy={busy} canClear={value.length > 0} onClear={() => onValueChange('')} />
     </form>
   );
 }

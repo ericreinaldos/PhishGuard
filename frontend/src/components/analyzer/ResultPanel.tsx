@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { FileBarChart2, RotateCcw, ScanSearch } from 'lucide-react';
 import { Alert } from '@/components/ui/Alert';
 import { Button, ButtonLink } from '@/components/ui/Button';
@@ -23,12 +24,29 @@ const STATE_LABEL: Record<AnalysisStatus['state'], string> = {
   error: 'Error',
 };
 
+/** Altura de la cabecera fija, que no debe tapar el resultado. */
+const HEADER_HEIGHT = 64;
+
 /** Zona bajo el formulario donde aparece el resultado del análisis. */
 export function ResultPanel({ status, onReset }: ResultPanelProps) {
+  const section = useRef<HTMLElement>(null);
+  const heading = useRef<HTMLHeadingElement>(null);
+
+  // Muestra la espera y el resultado aunque hayan quedado fuera de la pantalla
+  useEffect(() => {
+    if (status.state === 'idle' || !section.current) return;
+    const { top, bottom } = section.current.getBoundingClientRect();
+    if (top < HEADER_HEIGHT || bottom > window.innerHeight) {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      section.current.scrollIntoView({ block: 'start', behavior: reduced ? 'auto' : 'smooth' });
+    }
+    if (status.state !== 'loading') heading.current?.focus({ preventScroll: true });
+  }, [status.state]);
+
   return (
-    <section aria-labelledby="result-title" aria-live="polite">
+    <section ref={section} aria-labelledby="result-title" aria-live="polite" className="scroll-mt-24">
       <div className="mb-6 flex items-baseline justify-between gap-4">
-        <h2 id="result-title" className="eyebrow" style={{ fontStretch: '100%' }}>
+        <h2 ref={heading} id="result-title" tabIndex={-1} className="eyebrow outline-none" style={{ fontStretch: '100%' }}>
           Resultado
         </h2>
         <span className="label text-subtle">{STATE_LABEL[status.state]}</span>

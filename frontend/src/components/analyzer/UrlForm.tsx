@@ -8,9 +8,9 @@ import { submitOnCtrlEnter } from '@/utils/keyboard';
 import { FormActions } from './FormActions';
 import type { AnalyzerFormProps } from './types';
 
-export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
-  const [value, setValue] = useState('');
-  const [touched, setTouched] = useState(false);
+export function UrlForm({ onSubmit, busy, value, onValueChange }: AnalyzerFormProps) {
+  // Al volver a la pestaña con un borrador, su validación se muestra de nuevo
+  const [touched, setTouched] = useState(value.length > 0);
   const [submitted, setSubmitted] = useState(false);
 
   const valid = isValidUrl(value);
@@ -47,7 +47,7 @@ export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
         placeholder="https://ejemplo.com/iniciar-sesion"
         icon={Globe}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => onValueChange(e.target.value)}
         onBlur={() => setTouched(true)}
         error={error}
         mono
@@ -57,7 +57,7 @@ export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
           <button
             type="button"
             onClick={() => {
-              setValue(ANALYZER_EXAMPLES.url);
+              onValueChange(ANALYZER_EXAMPLES.url);
               setTouched(true);
             }}
             className="inline-flex min-h-6 items-center gap-1 rounded text-xs text-accent transition-colors hover:text-fg"
@@ -84,7 +84,7 @@ export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
         busy={busy}
         canClear={value.length > 0}
         onClear={() => {
-          setValue('');
+          onValueChange('');
           setTouched(false);
           setSubmitted(false);
         }}
