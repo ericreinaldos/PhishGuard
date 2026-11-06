@@ -8,11 +8,13 @@ interface FieldProps {
   error?: string;
   /** Contenido alineado a la derecha de la etiqueta (p. ej. "¿Olvidaste tu contraseña?"). */
   aside?: ReactNode;
+  /** Dato alineado a la derecha de la ayuda (p. ej. un contador de caracteres). */
+  counter?: ReactNode;
   children: ReactNode;
 }
 
 /** Envoltorio común para etiqueta, ayuda y error de cualquier control de formulario. */
-export function Field({ id, label, hint, error, aside, children }: FieldProps) {
+export function Field({ id, label, hint, error, aside, counter, children }: FieldProps) {
   return (
     <div className="space-y-2">
       <div className="flex min-h-[20px] items-center justify-between gap-2">
@@ -22,17 +24,24 @@ export function Field({ id, label, hint, error, aside, children }: FieldProps) {
         {aside}
       </div>
       {children}
-      {error ? (
-        <p id={`${id}-error`} role="alert" className="flex items-center gap-1.5 text-xs text-danger">
-          <AlertCircle className="h-3.5 w-3.5 shrink-0" aria-hidden />
-          {error}
-        </p>
-      ) : (
-        hint && (
-          <p id={`${id}-hint`} className="text-xs text-subtle">
-            {hint}
-          </p>
-        )
+      {(error || hint || counter) && (
+        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
+          <div className="min-w-0 flex-1 basis-64">
+            {error ? (
+              <p id={`${id}-error`} role="alert" className="flex items-center gap-1.5 text-xs text-danger">
+                <AlertCircle className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                {error}
+              </p>
+            ) : (
+              hint && (
+                <p id={`${id}-hint`} className="text-xs text-subtle">
+                  {hint}
+                </p>
+              )
+            )}
+          </div>
+          {counter && <div className="ml-auto shrink-0">{counter}</div>}
+        </div>
       )}
     </div>
   );
