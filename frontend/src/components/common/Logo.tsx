@@ -3,11 +3,7 @@ import { cn } from '@/utils/cn';
 
 export function LogoMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 32 32" className={cn('h-7 w-7', className)} aria-hidden>
-      <rect width="32" height="32" rx="7" fill="rgb(var(--accent-strong))" />
-      <path d="M16 6.5l7.5 2.9v5.7c0 4.7-3.2 8.3-7.5 9.8-4.3-1.5-7.5-5.1-7.5-9.8V9.4L16 6.5z" fill="none" stroke="#fff" strokeWidth="2" strokeLinejoin="round" />
-      <circle cx="16" cy="15" r="2.4" fill="#fff" />
-    </svg>
+    <img src="/favicon.png" alt="" width={28} height={28} className={cn('h-7 w-7', className)} />
   );
 }
 
