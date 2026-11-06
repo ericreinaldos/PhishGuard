@@ -16,19 +16,30 @@ interface AnalysesTableProps {
   compact?: boolean;
 }
 
-/** Tabla de análisis compartida por el dashboard y el historial. */
+/**
+ * Tabla de análisis compartida por el dashboard y el historial.
+ * Toda la fila abre el detalle: el enlace de la primera celda se extiende sobre ella con un pseudoelemento.
+ */
 export function AnalysesTable({ rows, detailHref, empty, compact }: AnalysesTableProps) {
   const columns: Column<AnalysisSummary>[] = [
     {
       key: 'content',
       header: 'Contenido',
+      // Ocupa el espacio libre y recorta dentro de él, sin ensanchar nunca la tabla
+      className: 'w-full max-w-0',
       render: (r) => (
         <div className="min-w-0">
-          <p className="max-w-[11rem] truncate text-fg sm:max-w-[18rem] lg:max-w-[22rem]" title={r.preview}>
+          <Link
+            to={detailHref(r)}
+            title={r.preview}
+            className="block truncate text-fg outline-none after:absolute after:inset-0 after:content-[''] focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:-outline-offset-2 focus-visible:after:outline-accent"
+          >
+            <span className="sr-only">Ver detalle del análisis: </span>
             {truncate(r.preview, 80)}
-          </p>
-          <div className="mt-0.5 sm:hidden">
+          </Link>
+          <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 sm:hidden">
             <TypeLabel type={r.type} />
+            <RiskBadge level={r.level} />
           </div>
         </div>
       ),
@@ -37,22 +48,14 @@ export function AnalysesTable({ rows, detailHref, empty, compact }: AnalysesTabl
     ...(compact
       ? []
       : [{ key: 'date', header: 'Fecha', render: (r: AnalysisSummary) => <span className="whitespace-nowrap text-muted">{formatDateTime(r.createdAt)}</span>, hideBelow: 'md' as const }]),
-    { key: 'verdict', header: 'Veredicto', render: (r) => <RiskBadge level={r.level} /> },
+    { key: 'verdict', header: 'Veredicto', render: (r) => <RiskBadge level={r.level} />, hideBelow: 'sm' },
     { key: 'score', header: 'Puntuación', render: (r) => <ScoreBar score={r.score} />, hideBelow: 'lg' },
     {
       key: 'detail',
-      header: 'Detalle',
+      header: <span className="sr-only sm:not-sr-only">Detalle</span>,
       align: 'right',
-      className: 'w-12',
-      render: (r) => (
-        <Link
-          to={detailHref(r)}
-          className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-subtle transition hover:bg-surface-3 hover:text-accent"
-          aria-label={`Ver detalle del análisis ${r.id}`}
-        >
-          <ChevronRight className="h-4 w-4" />
-        </Link>
-      ),
+      className: 'w-8 pl-2 sm:w-12 sm:pl-4',
+      render: () => <ChevronRight className="ml-auto h-4 w-4 text-subtle transition-colors group-hover:text-accent" aria-hidden />,
     },
   ];
 

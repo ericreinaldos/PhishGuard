@@ -3,7 +3,7 @@ import { cn } from '@/utils/cn';
 
 export interface Column<T> {
   key: string;
-  header: string;
+  header: ReactNode;
   render: (row: T) => ReactNode;
   className?: string;
   /** Oculta la columna por debajo de este punto de ruptura. */
@@ -53,7 +53,7 @@ export function DataTable<T>({ columns, rows, getRowKey, caption, empty }: DataT
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={getRowKey(row)} className="group">
+            <tr key={getRowKey(row)} className="group relative">
               {columns.map((col) => (
                 <td
                   key={col.key}
