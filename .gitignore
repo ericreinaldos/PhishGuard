@@ -13,13 +13,8 @@ node_modules
 .DS_Store
 Thumbs.db
 
-# Claude Code: solo la configuración compartida y la skill principal
-.claude/*
-!.claude/settings.json
-!.claude/skills/
-.claude/skills/*
-!.claude/skills/ui-ux-pro-max/
-.claude/skills/ui-ux-pro-max/scripts/tests/
+# Claude Code: configuración local, fuera del repositorio
+.claude/
 
 # Python
 __pycache__/
