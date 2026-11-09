@@ -19,7 +19,8 @@ export function Navbar() {
       isActive={isActive}
       actions={
         <>
-          <Link to="/login" className="text-sm text-muted transition-colors hover:text-fg">
+          {/* min-h-6: zona táctil de 24 px sin cambiar el aspecto del enlace */}
+          <Link to="/login" className="inline-flex min-h-6 items-center text-sm text-muted transition-colors hover:text-fg">
             Iniciar sesión
           </Link>
           <ButtonLink to="/register" size="sm">
