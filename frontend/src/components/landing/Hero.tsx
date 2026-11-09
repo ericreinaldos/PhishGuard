@@ -14,23 +14,34 @@ export function Hero() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, () => {
-        // Entrada: nombre → regla → titular → texto y botones → composición
+      // Por debajo de 640 px (sm de Tailwind) la etiqueta, el nombre y la regla están ocultos
+      mm.add({ motion: MOTION_OK, small: '(max-width: 639.98px)' }, (ctx) => {
+        const { motion, small } = ctx.conditions as { motion: boolean; small: boolean };
+        if (!motion) return;
+
+        // Entrada: nombre → regla → titular → texto y botones → composición.
+        // En móvil empieza por el titular, sin esperar a las letras ocultas.
         const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-        tl.from('[data-hero-letter]', { yPercent: 105, duration: 1.1, stagger: 0.04 })
-          .from('[data-hero-rule]', { scaleX: 0, transformOrigin: 'left center', duration: 1.1 }, '-=0.8')
-          .from('[data-hero-line]', { yPercent: 105, duration: 0.9, stagger: 0.08 }, '-=0.85')
-          .from('[data-hero-fade]', { autoAlpha: 0, y: 14, duration: 0.7, stagger: 0.07 }, '-=0.55')
+        if (small) {
+          tl.from('[data-hero-line]', { yPercent: 105, duration: 0.9, stagger: 0.08 });
+        } else {
+          tl.from('[data-hero-letter]', { yPercent: 105, duration: 1.1, stagger: 0.04 })
+            .from('[data-hero-rule]', { scaleX: 0, transformOrigin: 'left center', duration: 1.1 }, '-=0.8')
+            .from('[data-hero-line]', { yPercent: 105, duration: 0.9, stagger: 0.08 }, '-=0.85');
+        }
+        tl.from('[data-hero-fade]', { autoAlpha: 0, y: 14, duration: 0.7, stagger: 0.07 }, '-=0.55')
           .from('[data-specimen]', { autoAlpha: 0, y: 28, duration: 1 }, '-=0.75')
           .from('[data-mark]', { scaleX: 0, transformOrigin: 'left center', duration: 0.45, stagger: 0.18, ease: 'power2.out' }, '-=0.35')
           .from('[data-note]', { autoAlpha: 0, x: -6, duration: 0.45, stagger: 0.12 }, '<0.1');
 
         // Al salir del hero, el nombre se desplaza algo más despacio que el contenido
-        gsap.to('[data-wordmark]', {
-          yPercent: -22,
-          ease: 'none',
-          scrollTrigger: { trigger: scope.current, start: 'top top', end: 'bottom top', scrub: true },
-        });
+        if (!small) {
+          gsap.to('[data-wordmark]', {
+            yPercent: -22,
+            ease: 'none',
+            scrollTrigger: { trigger: scope.current, start: 'top top', end: 'bottom top', scrub: true },
+          });
+        }
       });
     },
     { scope },
@@ -39,7 +50,8 @@ export function Hero() {
   return (
     <section ref={scope} className="relative flex min-h-[100svh] flex-col overflow-hidden pb-8 pt-24 sm:pt-28">
       <div className="container-page flex flex-1 flex-col">
-        <div data-hero-fade className="flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.2em] text-subtle sm:text-[11px]">
+        {/* Etiqueta, nombre y regla solo desde 640 px: en móvil la marca ya está en la cabecera */}
+        <div data-hero-fade className="hidden items-center justify-between gap-4 font-mono sm:flex text-[10px] uppercase tracking-[0.2em] text-subtle sm:text-[11px]">
           <span>Detección de phishing basada en reglas</span>
           <span className="hidden sm:inline">Proyecto en desarrollo</span>
         </div>
@@ -55,7 +67,7 @@ export function Hero() {
         <p
           data-wordmark
           aria-label="PhishGuard"
-          className="mt-5 flex select-none justify-center whitespace-nowrap font-wide font-extrabold uppercase leading-[0.86] text-fg"
+          className="mt-5 hidden select-none justify-center sm:flex whitespace-nowrap font-wide font-extrabold uppercase leading-[0.86] text-fg"
           // padding-right compensa la diferencia de márgenes laterales de la P y la D
           style={{ fontSize: 'calc(clamp(2.1rem, calc(12.46vw - 0.18rem), 22rem) * 0.85)', paddingRight: '0.03em' }}
         >
@@ -68,9 +80,9 @@ export function Hero() {
           ))}
         </p>
 
-        <Rule data-hero-rule="" className="mt-6 sm:mt-8" />
+        <Rule data-hero-rule="" className="mt-6 hidden sm:mt-8 sm:block" />
 
-        <div className="mt-10 grid flex-1 grid-cols-1 gap-12 sm:mt-14 lg:grid-cols-12 lg:gap-10">
+        <div className="mt-6 grid flex-1 grid-cols-1 gap-12 sm:mt-14 lg:grid-cols-12 lg:gap-10">
           <div className="flex flex-col lg:col-span-5">
             <h1 className="font-semiwide text-[2.35rem] font-semibold uppercase leading-[0.98] text-fg sm:text-[3.4rem] lg:text-[3.15rem] xl:text-[3.6rem]">
               <span className="block overflow-hidden pb-[0.06em]">
