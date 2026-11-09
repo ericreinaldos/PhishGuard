@@ -12,9 +12,9 @@ export function AuthLayout() {
         <Logo />
         <div className="max-w-md">
           <p className="eyebrow">Protección antes del clic</p>
-          <h2 className="mt-6 font-semiwide text-[2.8rem] font-semibold uppercase leading-[1] text-fg">
+          <p className="mt-6 font-semiwide text-[2.8rem] font-semibold uppercase leading-[1] tracking-[-0.015em] text-fg text-balance">
             Un minuto de duda <span className="text-accent-strong">vale la pena</span>
-          </h2>
+          </p>
           <ol className="mt-12">
             {POINTS.map((text, i) => (
               <li key={text} className="flex gap-5 border-t border-line py-4 text-[15px] text-muted">
@@ -32,10 +32,10 @@ export function AuthLayout() {
         </p>
       </aside>
 
-      <main className="flex flex-col px-[var(--gutter)] py-6">
+      <main id="contenido" tabIndex={-1} className="flex flex-col px-[var(--gutter)] py-6 outline-none">
         <div className="flex items-center justify-between">
           <Logo className="lg:invisible" />
-          <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg">
+          <Link to="/" className="inline-flex min-h-6 items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg">
             <ArrowLeft className="h-4 w-4" aria-hidden />
             Volver al inicio
           </Link>

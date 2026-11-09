@@ -19,7 +19,7 @@ export function ScoreBreakdown({ signals }: { signals: DetectedSignal[] }) {
             <span className="font-mono text-fg">+{weight}</span>
           </div>
           <div className="mt-2 h-1.5 bg-surface-3">
-            <div className="h-full bg-accent-strong transition-[width] duration-700 ease-out" style={{ width: `${Math.min(100, weight)}%` }} />
+            <div className="h-full bg-accent-strong transition-[width] duration-slow ease-out" style={{ width: `${Math.min(100, weight)}%` }} />
           </div>
         </li>
       ))}

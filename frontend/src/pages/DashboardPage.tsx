@@ -26,7 +26,6 @@ export function DashboardPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Panel"
         title={
           <>
             Resumen de <span className="text-accent-strong">actividad</span>
@@ -35,36 +34,35 @@ export function DashboardPage() {
         description="Tus análisis recientes y el estado general de lo que has comprobado."
       />
 
-      <DemoNotice className="mb-12" />
-
-      <StatGrid metrics={DEMO_DASHBOARD_METRICS} className="mb-6" />
+      <DemoNotice className="mb-8" />
 
       {/* Acceso rápido: mismas filas con relleno azul que en la home, en versión compacta */}
       <Section index={1} title="¿Te ha llegado algo sospechoso?" description="Elige qué quieres analizar." layout="stacked">
         <ul className="grid grid-cols-1 border-b border-line md:grid-cols-3 md:border-b-0">
-          {QUICK_MODES.map(({ type, text }, i) => (
+          {QUICK_MODES.map(({ type, text }) => (
             <li key={type} className="border-t border-line md:border-l md:border-t-0 md:first:border-l-0">
               <Link
                 to={type === 'message' ? '/analyzer' : `/analyzer?mode=${type}`}
                 className="group relative flex items-center justify-between gap-4 overflow-hidden px-1 py-6 outline-none md:px-6 md:first:pl-0"
               >
                 <span
-                  className="absolute inset-0 origin-left scale-x-0 bg-accent-strong transition-transform duration-500 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                  className="absolute inset-0 origin-left scale-x-0 bg-accent-strong transition-transform duration-slow ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
                   aria-hidden
                 />
                 <span className="relative">
-                  <span className="font-mono text-[11px] text-subtle transition-colors group-hover:text-white/70">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="mt-2 block font-wide text-2xl font-bold uppercase leading-none text-fg transition-colors group-hover:text-white">
+                  <span className="block font-wide text-2xl font-bold uppercase leading-none text-fg transition-colors group-hover:text-accent-ink">
                     {ANALYSIS_TYPE_CONFIG[type].label}
                   </span>
-                  <span className="mt-2 block text-sm text-muted transition-colors group-hover:text-white/85">{text}</span>
+                  <span className="mt-2 block text-sm text-muted transition-colors group-hover:text-accent-ink/85">{text}</span>
                 </span>
-                <ArrowUpRight className="relative h-6 w-6 shrink-0 text-muted transition-[color,transform] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" aria-hidden />
+                <ArrowUpRight className="relative h-6 w-6 shrink-0 text-muted transition-[color,transform] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent-ink" aria-hidden />
               </Link>
             </li>
           ))}
         </ul>
       </Section>
+
+      <StatGrid metrics={DEMO_DASHBOARD_METRICS} className="mb-6" />
 
       <div className="grid grid-cols-1 gap-x-10 xl:grid-cols-12">
         <div className="min-w-0 xl:col-span-8">
@@ -77,12 +75,15 @@ export function DashboardPage() {
               </span>
             }
             action={
-              <Link to="/history" className="inline-flex items-center gap-1.5 text-sm text-accent transition-colors hover:text-fg">
+              <Link to="/history" className="inline-flex min-h-6 items-center gap-1.5 text-sm text-accent transition-colors hover:text-fg">
                 Ver historial <ArrowRight className="h-3.5 w-3.5" aria-hidden />
               </Link>
             }
           >
-            <AnalysesTable rows={DEMO_ANALYSES.slice(0, 5)} detailHref={(r) => `/results?demo=1&id=${r.id}`} compact />
+            {/* Cinco filas; ocho desde 1280 px, donde la tabla comparte fila con la columna lateral */}
+            <div className="[&_tbody_tr:nth-child(n+6)]:hidden xl:[&_tbody_tr:nth-child(n+6)]:table-row">
+              <AnalysesTable rows={DEMO_ANALYSES.slice(0, 8)} detailHref={(r) => `/results?demo=1&id=${r.id}`} compact />
+            </div>
           </Section>
         </div>
 
@@ -93,7 +94,7 @@ export function DashboardPage() {
 
           <Section index={4} layout="stacked" title="Actividad reciente">
             <ol>
-              {DEMO_ACTIVITY.map((event) => (
+              {DEMO_ACTIVITY.slice(0, 3).map((event) => (
                 <li key={event.id} className="border-t border-line py-4 first:border-t-0 first:pt-0">
                   <div className="flex items-baseline justify-between gap-3">
                     <p className="text-[15px] text-fg">{event.title}</p>
@@ -101,8 +102,10 @@ export function DashboardPage() {
                       {formatDateTime(event.createdAt)}
                     </time>
                   </div>
-                  <p className="mt-1 truncate text-sm text-muted">{event.detail}</p>
-                  {event.level && <RiskBadge level={event.level} className="mt-2.5" />}
+                  <div className="mt-1 flex items-center justify-between gap-3">
+                    <p className="min-w-0 truncate text-sm text-muted">{event.detail}</p>
+                    {event.level && <RiskBadge level={event.level} className="shrink-0" />}
+                  </div>
                 </li>
               ))}
             </ol>

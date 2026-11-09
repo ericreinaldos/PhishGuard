@@ -21,7 +21,7 @@ export function DemoTag({ className }: { className?: string }) {
 /** Aviso de página: lo que se ve son datos ficticios, no actividad real. */
 export function DemoNotice({ children, className }: { children?: ReactNode; className?: string }) {
   return (
-    <div className={cn('flex items-start gap-4 rounded-lg border border-warning/30 px-4 py-3.5 text-sm sm:items-center', className)}>
+    <div className={cn('flex items-start gap-4 rounded-xl border border-warning/30 px-4 py-3.5 text-sm sm:items-center', className)}>
       <DemoTag className="shrink-0" />
       <p className="text-muted">
         <span className="text-fg">Datos de demostración.</span>{' '}

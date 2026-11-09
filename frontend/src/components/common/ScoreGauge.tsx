@@ -43,7 +43,7 @@ export function ScoreGauge({ score, size = 200, className }: ScoreGaugeProps) {
             stroke={RISK_CONFIG[level].cssColor}
             strokeWidth="12"
             strokeLinecap="round"
-            className="transition-all duration-700"
+            className="transition-all duration-slow"
           />
         )}
         {ticks.map((t) => {

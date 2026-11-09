@@ -27,9 +27,9 @@ export function HeroSpecimen() {
   const total = NOTES.reduce((s, n) => s + n.points, 0);
   return (
     <figure data-specimen className="relative overflow-hidden rounded-2xl border border-line bg-surface">
-      <figcaption className="flex items-center justify-between gap-4 border-b border-line px-5 py-3 font-mono text-[11px] text-subtle sm:px-7">
+      <figcaption className="flex flex-col gap-1 border-b border-line px-5 py-3 font-mono text-[11px] text-subtle sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-7">
         <span className="truncate">De: Seguridad &lt;avisos@banco-avisos.co&gt;</span>
-        <span className="shrink-0 uppercase tracking-[0.16em]">Ejemplo ilustrativo</span>
+        <span className="label shrink-0">Ejemplo ilustrativo</span>
       </figcaption>
 
       <div className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_200px]">
@@ -58,7 +58,7 @@ export function HeroSpecimen() {
 
         {/* Notas al margen */}
         <div className="border-t border-line bg-bg/40 px-5 py-6 sm:border-l sm:border-t-0 sm:px-6 sm:py-8">
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-subtle">Señales</p>
+          <p className="label text-subtle">Señales</p>
           <ol className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-1">
             {NOTES.map((note) => (
               <li key={note.n} data-note className="flex items-baseline gap-2 text-[13px]">
@@ -69,7 +69,7 @@ export function HeroSpecimen() {
             ))}
           </ol>
           <div data-note className="mt-6 border-t border-line pt-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-subtle">Nivel de riesgo</p>
+            <p className="label text-subtle">Nivel de riesgo</p>
             <p className="mt-1 flex items-baseline gap-2">
               <span className="font-wide text-2xl font-bold uppercase text-danger">Alto</span>
               <span className="font-mono text-xs text-muted">{total}/100</span>

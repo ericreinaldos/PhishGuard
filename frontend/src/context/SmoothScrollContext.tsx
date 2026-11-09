@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import Lenis from 'lenis';
-import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { gsap, isMotionReduced, ScrollTrigger } from '@/lib/gsap';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 interface SmoothScrollContextValue {
@@ -37,9 +37,8 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       if (typeof target === 'number') {
         window.scrollTo({ top: target, behavior: 'auto' });
       } else {
-        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const top = target.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
-        window.scrollTo({ top, behavior: immediate || reduce ? 'auto' : 'smooth' });
+        window.scrollTo({ top, behavior: immediate || isMotionReduced() ? 'auto' : 'smooth' });
       }
     },
     [],

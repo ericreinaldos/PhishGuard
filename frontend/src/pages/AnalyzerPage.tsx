@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Tabs, type TabItem } from '@/components/ui/Tabs';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -5,11 +6,13 @@ import { Panel } from '@/components/common/Panel';
 import { MessageForm } from '@/components/analyzer/MessageForm';
 import { UrlForm } from '@/components/analyzer/UrlForm';
 import { HeadersForm } from '@/components/analyzer/HeadersForm';
+import { PrivacyNote } from '@/components/analyzer/PrivacyNote';
 import { TipsPanel } from '@/components/analyzer/TipsPanel';
 import { ResultPanel } from '@/components/analyzer/ResultPanel';
 import type { AnalyzerFormProps } from '@/components/analyzer/types';
 import { useAnalysisSubmit } from '@/hooks/useAnalysisSubmit';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { usePreferences } from '@/hooks/usePreferences';
 import type { AnalysisType } from '@/types/analysis';
 
 const MODES: TabItem<AnalysisType>[] = [
@@ -35,10 +38,13 @@ const isAnalysisType = (value: string | null): value is AnalysisType => value ==
 
 export function AnalyzerPage() {
   useDocumentTitle('Analizador');
+  const { preferences } = usePreferences();
   const [params, setParams] = useSearchParams();
   const modeParam = params.get('mode');
   const mode: AnalysisType = isAnalysisType(modeParam) ? modeParam : 'message';
   const { status, submit, reset } = useAnalysisSubmit();
+  // Solo en memoria: el contenido analizado puede incluir datos personales y no debe persistir
+  const [drafts, setDrafts] = useState<Record<AnalysisType, string>>({ message: '', url: '', headers: '' });
 
   const changeMode = (next: AnalysisType) => {
     setParams(next === 'message' ? {} : { mode: next }, { replace: true });
@@ -64,7 +70,7 @@ export function AnalyzerPage() {
 
       <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
         <Panel
-          className="lg:col-span-8"
+          className={preferences.showTips ? 'lg:col-span-8' : 'lg:col-span-12'}
           padding="lg"
           label={PANEL_LABEL[mode]}
           aside={<span className="font-mono text-[11px] text-subtle">{String(index).padStart(2, '0')} / 03</span>}
@@ -72,11 +78,19 @@ export function AnalyzerPage() {
           role="tabpanel"
           aria-labelledby={`analyzer-tab-${mode}`}
         >
-          {/* key fuerza un formulario limpio al cambiar de modalidad */}
-          <Form key={mode} onSubmit={submit} busy={status.state === 'loading'} />
+          {/* key reinicia los errores al cambiar de modalidad; el texto se conserva en drafts */}
+          <Form
+            key={mode}
+            onSubmit={submit}
+            busy={status.state === 'loading'}
+            value={drafts[mode]}
+            onValueChange={(value) => setDrafts((d) => ({ ...d, [mode]: value }))}
+          />
         </Panel>
-        <TipsPanel className="lg:col-span-4" />
+        {preferences.showTips && <TipsPanel className="lg:col-span-4" />}
       </div>
+
+      <PrivacyNote className="mt-6" />
 
       <div className="mt-16 sm:mt-20">
         <ResultPanel status={status} onReset={reset} />

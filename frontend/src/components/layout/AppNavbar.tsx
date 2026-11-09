@@ -17,7 +17,7 @@ export function AppNavbar() {
       solid
       logoTo="/dashboard"
       links={APP_NAV}
-      isActive={(to) => pathname.startsWith(to)}
+      isActive={(to) => pathname.startsWith(to) || (to === '/history' && pathname.startsWith('/results'))}
       actions={
         <>
           {pathname !== '/analyzer' && (
@@ -34,7 +34,7 @@ export function AppNavbar() {
             Nuevo análisis
           </ButtonLink>
           <div className="mt-4 flex items-center gap-3 border-t border-line pt-6">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-strong font-mono text-xs text-white">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-strong font-mono text-xs text-accent-ink">
               {userInitials(DEMO_USER.name)}
             </span>
             <div className="min-w-0">

@@ -1,5 +1,6 @@
 import { useRef, type ReactNode } from 'react';
 import { useReveal } from '@/hooks/useReveal';
+import { APP_MOTION } from '@/lib/gsap';
 import { cn } from '@/utils/cn';
 
 interface SectionProps {
@@ -22,7 +23,7 @@ interface SectionProps {
 /** Bloque editorial separado por una línea fina, reutilizado en todas las páginas interiores. */
 export function Section({ index, title, description, action, children, layout = 'side', id, className }: SectionProps) {
   const scope = useRef<HTMLElement>(null);
-  useReveal(scope);
+  useReveal(scope, APP_MOTION === 'full');
   const headingId = id ? `${id}-title` : undefined;
 
   const heading = (

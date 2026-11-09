@@ -15,8 +15,8 @@ const VARIANTS: Record<ButtonVariant, string> = {
 };
 
 const SIZES: Record<ButtonSize, string> = {
-  sm: 'h-8 px-3 text-xs gap-1.5',
-  md: 'h-10 px-4 text-sm gap-2',
+  sm: 'h-10 px-3 text-xs gap-1.5 lg:h-8',
+  md: 'h-11 px-4 text-sm gap-2 lg:h-10',
   lg: 'h-[52px] px-7 text-[15px] gap-2.5',
 };
 
@@ -28,7 +28,7 @@ interface StyleProps {
 
 export function buttonClasses({ variant = 'primary', size = 'md', fullWidth }: StyleProps = {}) {
   return cn(
-    'inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-lg font-medium transition-colors duration-150 ease-out',
+    'inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-lg font-medium transition-[color,background-color,border-color,transform] duration-fast ease-out',
     'disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]',
     VARIANTS[variant],
     SIZES[size],

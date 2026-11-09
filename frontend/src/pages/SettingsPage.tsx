@@ -2,16 +2,20 @@ import { useState, type FormEvent } from 'react';
 import { AtSign, KeyRound, LogOut, Save, Trash2, User } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { Switch } from '@/components/ui/Switch';
 import { Badge } from '@/components/ui/Badge';
 import { PageHeader } from '@/components/common/PageHeader';
 import { Section } from '@/components/common/Section';
 import { DemoTag } from '@/components/common/DemoNotice';
+import { userInitials } from '@/components/layout/AccountMenu';
 import { DEMO_USER } from '@/data/demoUser';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { usePreferences } from '@/hooks/usePreferences';
 import { useToast } from '@/hooks/useToast';
 import { useVisualLogout } from '@/hooks/useVisualLogout';
 import { formatDate } from '@/utils/format';
+import { focusFirstInvalid } from '@/utils/focus';
 import { isValidEmail } from '@/utils/validation';
 
 export function SettingsPage() {
@@ -21,13 +25,14 @@ export function SettingsPage() {
 
   const [profile, setProfile] = useState({ name: DEMO_USER.name, email: DEMO_USER.email });
   const [emailError, setEmailError] = useState<string>();
-  const [prefs, setPrefs] = useState({ reduceMotion: false, compactTables: false, showTips: true });
-  const [privacy, setPrivacy] = useState({ saveHistory: true, storeContent: false });
+  const { preferences, updatePreferences } = usePreferences();
+  const [confirming, setConfirming] = useState<'history' | 'account' | null>(null);
 
   const saveProfile = (e: FormEvent) => {
     e.preventDefault();
     if (!isValidEmail(profile.email)) {
       setEmailError('Introduce un correo electrónico válido.');
+      focusFirstInvalid(e.currentTarget as HTMLFormElement);
       return;
     }
     setEmailError(undefined);
@@ -49,8 +54,8 @@ export function SettingsPage() {
       <Section index={1} title="Perfil" description="Información básica asociada a tu cuenta.">
         <form onSubmit={saveProfile} noValidate className="space-y-5">
           <div className="flex items-center gap-4">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-strong font-semiwide text-lg font-semibold text-white">
-              {profile.name.charAt(0).toUpperCase() || '?'}
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-strong font-semiwide text-lg font-semibold text-accent-ink">
+              {userInitials(profile.name)}
             </span>
             <div>
               <p className="flex items-center gap-2 text-sm font-medium text-fg">
@@ -79,7 +84,7 @@ export function SettingsPage() {
         </form>
       </Section>
 
-      <Section index={2} title="Preferencias visuales" description="Ajusta cómo se muestra la aplicación.">
+      <Section index={2} title="Preferencias visuales" description="Ajusta cómo se muestra la aplicación. Los cambios se aplican al momento en este dispositivo.">
         <div className="flex items-center justify-between gap-4 pb-3">
           <div>
             <p className="text-sm font-medium text-fg">Tema</p>
@@ -88,28 +93,20 @@ export function SettingsPage() {
           <Badge tone="neutral">Oscuro</Badge>
         </div>
         <div className="divide-y divide-line border-t border-line">
-          <Switch id="pref-motion" label="Reducir animaciones" description="Desactiva transiciones y efectos de movimiento." checked={prefs.reduceMotion} onChange={(v) => setPrefs((p) => ({ ...p, reduceMotion: v }))} />
-          <Switch id="pref-compact" label="Tablas compactas" description="Muestra más filas en el historial." checked={prefs.compactTables} onChange={(v) => setPrefs((p) => ({ ...p, compactTables: v }))} />
-          <Switch id="pref-tips" label="Consejos en el analizador" description="Muestra el panel de ayuda junto al formulario." checked={prefs.showTips} onChange={(v) => setPrefs((p) => ({ ...p, showTips: v }))} />
-        </div>
-        <div className="mt-3 flex justify-end">
-          <Button variant="outline" leftIcon={Save} onClick={() => notifyPending('Guardar las preferencias')}>
-            Guardar preferencias
-          </Button>
+          <Switch id="pref-motion" label="Reducir animaciones" description="Desactiva transiciones y efectos de movimiento." checked={preferences.reduceMotion} onChange={(v) => updatePreferences({ reduceMotion: v })} />
+          <Switch id="pref-compact" label="Tablas compactas" description="Muestra más filas en el historial." checked={preferences.compactTables} onChange={(v) => updatePreferences({ compactTables: v })} />
+          <Switch id="pref-tips" label="Consejos en el analizador" description="Muestra el panel de ayuda junto al formulario." checked={preferences.showTips} onChange={(v) => updatePreferences({ showTips: v })} />
         </div>
       </Section>
 
-      <Section index={3} title="Privacidad" description="Decide qué se conserva de tus análisis.">
+      <Section index={3} title="Privacidad" description="Decide qué se conserva de tus análisis. Se recuerda en este dispositivo y se aplicará cuando el historial se guarde en tu cuenta.">
         <div className="divide-y divide-line">
-          <Switch id="priv-history" label="Guardar historial" description="Conserva la puntuación y el veredicto de cada análisis." checked={privacy.saveHistory} onChange={(v) => setPrivacy((p) => ({ ...p, saveHistory: v }))} />
-          <Switch id="priv-content" label="Guardar el contenido analizado" description="Si está desactivado, solo se guarda el resultado, nunca el texto." checked={privacy.storeContent} onChange={(v) => setPrivacy((p) => ({ ...p, storeContent: v }))} />
+          <Switch id="priv-history" label="Guardar historial" description="Conserva la puntuación y el veredicto de cada análisis." checked={preferences.saveHistory} onChange={(v) => updatePreferences({ saveHistory: v })} />
+          <Switch id="priv-content" label="Guardar el contenido analizado" description="Si está desactivado, solo se guarda el resultado, nunca el texto." checked={preferences.storeContent} onChange={(v) => updatePreferences({ storeContent: v })} />
         </div>
-        <div className="mt-3 flex flex-wrap justify-end gap-2">
-          <Button variant="ghost" leftIcon={Trash2} onClick={() => notifyPending('Borrar el historial')}>
+        <div className="mt-3 flex justify-end">
+          <Button variant="danger" leftIcon={Trash2} onClick={() => setConfirming('history')}>
             Borrar historial
-          </Button>
-          <Button variant="outline" leftIcon={Save} onClick={() => notifyPending('Guardar la configuración de privacidad')}>
-            Guardar
           </Button>
         </div>
       </Section>
@@ -139,12 +136,35 @@ export function SettingsPage() {
               <p className="text-sm font-medium text-danger">Eliminar cuenta</p>
               <p className="text-sm text-muted">Borra tu cuenta y todos sus datos de forma permanente.</p>
             </div>
-            <Button variant="danger" leftIcon={Trash2} onClick={() => notifyPending('La eliminación de cuentas')}>
+            <Button variant="danger" leftIcon={Trash2} onClick={() => setConfirming('account')}>
               Eliminar cuenta
             </Button>
           </div>
         </div>
       </Section>
+
+      <ConfirmDialog
+        open={confirming === 'history'}
+        title="¿Borrar todo el historial?"
+        description="Se eliminarán tus análisis guardados en esta cuenta. Esta acción no se puede deshacer."
+        confirmLabel="Borrar historial"
+        onCancel={() => setConfirming(null)}
+        onConfirm={() => {
+          setConfirming(null);
+          notifyPending('Borrar el historial');
+        }}
+      />
+      <ConfirmDialog
+        open={confirming === 'account'}
+        title="¿Eliminar tu cuenta?"
+        description="Se borrarán tu cuenta y todos sus datos de forma permanente. Esta acción no se puede deshacer."
+        confirmLabel="Eliminar cuenta"
+        onCancel={() => setConfirming(null)}
+        onConfirm={() => {
+          setConfirming(null);
+          notifyPending('La eliminación de cuentas');
+        }}
+      />
     </>
   );
 }

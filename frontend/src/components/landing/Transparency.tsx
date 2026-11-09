@@ -71,7 +71,7 @@ export function Transparency() {
             </figure>
 
             <div className="bg-surface p-5">
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-subtle">Cómo se obtiene un {total}</p>
+              <p className="label text-subtle">Cómo se obtiene un {total}</p>
               <table className="mt-4 w-full text-sm">
                 <caption className="sr-only">Desglose de una puntuación de ejemplo</caption>
                 <tbody>

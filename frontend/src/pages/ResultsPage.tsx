@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Download, FileBarChart2, FlaskConical, ScanSearch, Share2 } from 'lucide-react';
+import { ArrowLeft, Download, FileBarChart2, FlaskConical, History, ScanSearch, Share2 } from 'lucide-react';
 import { Alert } from '@/components/ui/Alert';
 import { Button, ButtonLink } from '@/components/ui/Button';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -22,7 +22,7 @@ import type { AnalysisResult } from '@/types/analysis';
 import { ANALYSIS_TYPE_CONFIG, RISK_CONFIG } from '@/utils/risk';
 import { cn } from '@/utils/cn';
 
-const label = 'font-mono text-[11px] uppercase tracking-[0.16em] text-subtle';
+const label = 'label text-subtle';
 
 /** Cabecera del informe: nivel de riesgo protagonista y puntuación general con su escala. */
 function ReportSummary({ result }: { result: AnalysisResult }) {
@@ -60,7 +60,6 @@ function ReportSummary({ result }: { result: AnalysisResult }) {
 
 /** Informe completo, organizado en secciones numeradas como la home. */
 function ResultReport({ result }: { result: AnalysisResult }) {
-  const { notifyPending } = useToast();
   // Un único orden (por peso) para numerar igual las señales y los subrayados
   const signals = [...result.signals].sort((a, b) => b.weight - a.weight);
 
@@ -68,11 +67,15 @@ function ResultReport({ result }: { result: AnalysisResult }) {
     <>
       <ReportSummary result={result} />
 
-      <Section index={1} title="Contribución a la puntuación" description="Cuánto suma cada tipo de señal sobre 100.">
+      <Section index={1} title="Qué hacer ahora" description="Recomendaciones según el tipo de amenaza.">
+        <RecommendationList items={result.recommendations} />
+      </Section>
+
+      <Section index={2} title="Contribución a la puntuación" description="Cuánto suma cada tipo de señal sobre 100.">
         <ScoreBreakdown signals={signals} />
       </Section>
 
-      <Section index={2} title={`${ANALYSIS_TYPE_CONFIG[result.type].label} analizado`} description="Los fragmentos que han activado una regla aparecen subrayados y numerados.">
+      <Section index={3} title={`${ANALYSIS_TYPE_CONFIG[result.type].label} analizado`} description="Los fragmentos que han activado una regla aparecen subrayados y numerados.">
         <Panel label={`${result.input.length} caracteres`} aside={<span className={label}>Contenido original</span>} padding="lg">
           <div className="max-h-96 overflow-auto" data-lenis-prevent>
             <HighlightedMessage text={result.input} signals={signals} />
@@ -80,29 +83,11 @@ function ResultReport({ result }: { result: AnalysisResult }) {
         </Panel>
       </Section>
 
-      <Section index={3} title="Señales detectadas" description={`${signals.length} reglas activadas de ${result.rulesEvaluated} evaluadas, de mayor a menor peso.`}>
+      <Section index={4} title="Señales detectadas" description={`${signals.length} reglas activadas de ${result.rulesEvaluated} evaluadas, de mayor a menor peso.`}>
         <SignalList signals={signals} />
       </Section>
 
-      <Section index={4} title="Qué hacer ahora" description="Recomendaciones según el tipo de amenaza.">
-        <RecommendationList items={result.recommendations} />
-      </Section>
-
-      <Section
-        index={5}
-        title="Información del análisis"
-        description="Datos técnicos del informe."
-        action={
-          <div className="flex flex-wrap gap-3">
-            <Button variant="outline" size="sm" leftIcon={Download} onClick={() => notifyPending('La exportación del informe')}>
-              Exportar
-            </Button>
-            <Button variant="ghost" size="sm" leftIcon={Share2} onClick={() => notifyPending('Compartir resultados')}>
-              Compartir
-            </Button>
-          </div>
-        }
-      >
+      <Section index={5} title="Información del análisis" description="Datos técnicos del informe.">
         <AnalysisMeta result={result} />
       </Section>
 
@@ -118,6 +103,7 @@ function ResultReport({ result }: { result: AnalysisResult }) {
 
 export function ResultsPage() {
   useDocumentTitle('Resultados');
+  const { notifyPending } = useToast();
   const [params, setParams] = useSearchParams();
   const showDemo = params.get('demo') === '1';
   const requestedId = params.get('id');
@@ -133,9 +119,21 @@ export function ResultsPage() {
         }
         description="Nivel de riesgo, señales detectadas, por qué importan y qué hacer a continuación."
         actions={
-          <ButtonLink to="/analyzer" variant="outline" leftIcon={ArrowLeft}>
-            Volver al analizador
-          </ButtonLink>
+          <>
+            {showDemo && (
+              <>
+                <Button variant="ghost" size="sm" leftIcon={Download} onClick={() => notifyPending('La exportación del informe')}>
+                  Exportar
+                </Button>
+                <Button variant="ghost" size="sm" leftIcon={Share2} onClick={() => notifyPending('Compartir resultados')}>
+                  Compartir
+                </Button>
+              </>
+            )}
+            <ButtonLink to="/analyzer" variant="outline" size="sm" leftIcon={ArrowLeft}>
+              Volver al analizador
+            </ButtonLink>
+          </>
         }
       />
 
@@ -154,15 +152,18 @@ export function ResultsPage() {
       ) : (
         <EmptyState
           icon={FileBarChart2}
-          title="Todavía no hay ningún resultado"
-          description="Cuando el motor de reglas esté conectado, aquí verás el informe completo de cada análisis."
+          title="Elige un análisis para ver su informe"
+          description="Los informes se abren desde el historial. También puedes analizar algo nuevo o ver un ejemplo. El motor de reglas aún no está conectado, así que todavía no se generan informes reales."
           action={
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <ButtonLink to="/analyzer" leftIcon={ScanSearch}>
-                Ir al analizador
+            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+              <ButtonLink to="/history" leftIcon={History}>
+                Ir al historial
               </ButtonLink>
-              <Button variant="outline" leftIcon={FlaskConical} onClick={() => setParams({ demo: '1' })}>
-                Ver ejemplo de demostración
+              <ButtonLink to="/analyzer" variant="outline" leftIcon={ScanSearch}>
+                Nuevo análisis
+              </ButtonLink>
+              <Button variant="ghost" leftIcon={FlaskConical} onClick={() => setParams({ demo: '1' })}>
+                Ver ejemplo
               </Button>
             </div>
           }

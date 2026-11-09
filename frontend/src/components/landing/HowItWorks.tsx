@@ -79,7 +79,7 @@ export function HowItWorks() {
                   <div className="flex gap-6 sm:gap-8">
                     <span
                       className={cn(
-                        'relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border font-semiwide text-lg font-semibold transition-colors duration-300',
+                        'relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border font-semiwide text-lg font-semibold transition-colors duration-base',
                         isActive ? 'border-fg bg-fg text-bg' : 'border-line-strong bg-bg text-muted lg:bg-surface',
                       )}
                       aria-hidden
@@ -87,10 +87,10 @@ export function HowItWorks() {
                       {i + 1}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-subtle">Paso {String(i + 1).padStart(2, '0')}</p>
+                      <p className="label text-subtle">Paso {String(i + 1).padStart(2, '0')}</p>
                       <h3
                         className={cn(
-                          'mt-3 font-semiwide text-[1.9rem] font-semibold leading-[1.05] transition-colors duration-300 sm:text-[2.4rem]',
+                          'mt-3 font-semiwide text-[1.9rem] font-semibold leading-[1.05] transition-colors duration-base sm:text-[2.4rem]',
                           isActive ? 'text-fg' : 'text-fg lg:text-fg/40',
                         )}
                       >
@@ -118,7 +118,7 @@ export function HowItWorks() {
                   <div
                     key={step.title}
                     className={cn(
-                      'absolute inset-0 p-7 transition-[opacity,transform] duration-500 ease-out',
+                      'absolute inset-0 p-7 transition-[opacity,transform] duration-slow ease-out',
                       active === i ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0',
                     )}
                   >

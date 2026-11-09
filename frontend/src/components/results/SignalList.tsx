@@ -20,7 +20,7 @@ export function SignalList({ signals }: { signals: DetectedSignal[] }) {
           <div>
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <h3 className="font-semiwide text-xl font-semibold text-fg">{s.title}</h3>
-              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">
+              <span className="label text-subtle">
                 {s.ruleId} · {SIGNAL_CATEGORY_LABEL[s.category]}
               </span>
             </div>

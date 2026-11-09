@@ -3,7 +3,9 @@ import { Sparkles } from 'lucide-react';
 import { Textarea } from '@/components/ui/Textarea';
 import { Alert } from '@/components/ui/Alert';
 import { ANALYZER_EXAMPLES, HEADERS_MAX_LENGTH } from '@/data/analyzerExamples';
+import { focusFirstInvalid } from '@/utils/focus';
 import { looksLikeEmailHeaders } from '@/utils/validation';
+import { submitOnCtrlEnter } from '@/utils/keyboard';
 import { FormActions } from './FormActions';
 import type { AnalyzerFormProps } from './types';
 
@@ -14,8 +16,7 @@ const CLIENTS = [
   { name: 'Thunderbird', path: 'Ver → Código fuente del mensaje' },
 ];
 
-export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
-  const [value, setValue] = useState('');
+export function HeadersForm({ onSubmit, busy, value, onValueChange }: AnalyzerFormProps) {
   const [error, setError] = useState<string>();
 
   const showFormatWarning = value.trim().length > 40 && !looksLikeEmailHeaders(value);
@@ -24,6 +25,7 @@ export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
     e.preventDefault();
     if (!value.trim()) {
       setError('Pega las cabeceras del correo para analizarlas.');
+      focusFirstInvalid(e.currentTarget as HTMLFormElement);
       return;
     }
     setError(undefined);
@@ -31,7 +33,7 @@ export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-5">
+    <form onSubmit={handleSubmit} onKeyDown={(e) => submitOnCtrlEnter(e, busy)} noValidate className="space-y-5">
       <Textarea
         id="headers-input"
         label="Cabeceras del correo"
@@ -43,7 +45,7 @@ export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
         maxLength={HEADERS_MAX_LENGTH}
         showCount
         onChange={(e) => {
-          setValue(e.target.value);
+          onValueChange(e.target.value);
           if (error) setError(undefined);
         }}
         error={error}
@@ -51,8 +53,8 @@ export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
         aside={
           <button
             type="button"
-            onClick={() => setValue(ANALYZER_EXAMPLES.headers)}
-            className="inline-flex items-center gap-1 rounded text-xs text-accent transition hover:text-accent-strong"
+            onClick={() => onValueChange(ANALYZER_EXAMPLES.headers)}
+            className="inline-flex min-h-6 items-center gap-1 rounded text-xs text-accent transition-colors hover:text-fg"
           >
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
             Cargar ejemplo
@@ -85,7 +87,7 @@ export function HeadersForm({ onSubmit, busy }: AnalyzerFormProps) {
         </dl>
       </details>
 
-      <FormActions busy={busy} canClear={value.length > 0} onClear={() => setValue('')} />
+      <FormActions busy={busy} canClear={value.length > 0} onClear={() => onValueChange('')} />
     </form>
   );
 }

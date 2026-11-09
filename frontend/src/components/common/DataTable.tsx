@@ -3,7 +3,7 @@ import { cn } from '@/utils/cn';
 
 export interface Column<T> {
   key: string;
-  header: string;
+  header: ReactNode;
   render: (row: T) => ReactNode;
   className?: string;
   /** Oculta la columna por debajo de este punto de ruptura. */
@@ -17,6 +17,8 @@ interface DataTableProps<T> {
   getRowKey: (row: T) => string;
   caption: string;
   empty?: ReactNode;
+  /** Filas más bajas para ver más registros a la vez. */
+  dense?: boolean;
 }
 
 const HIDE: Record<NonNullable<Column<unknown>['hideBelow']>, string> = {
@@ -26,7 +28,7 @@ const HIDE: Record<NonNullable<Column<unknown>['hideBelow']>, string> = {
 };
 
 /** Tabla genérica tipada. Recibe las filas ya filtradas; no conoce el origen de los datos. */
-export function DataTable<T>({ columns, rows, getRowKey, caption, empty }: DataTableProps<T>) {
+export function DataTable<T>({ columns, rows, getRowKey, caption, empty, dense }: DataTableProps<T>) {
   if (rows.length === 0 && empty) return <>{empty}</>;
 
   return (
@@ -40,7 +42,7 @@ export function DataTable<T>({ columns, rows, getRowKey, caption, empty }: DataT
                 key={col.key}
                 scope="col"
                 className={cn(
-                  'border-b border-line px-4 pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-subtle first:pl-0 last:pr-0',
+                  'border-b border-line px-4 pb-3 label font-medium text-subtle first:pl-0 last:pr-0',
                   col.align === 'right' ? 'text-right' : 'text-left',
                   col.hideBelow && HIDE[col.hideBelow],
                   col.className,
@@ -53,12 +55,13 @@ export function DataTable<T>({ columns, rows, getRowKey, caption, empty }: DataT
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={getRowKey(row)} className="group">
+            <tr key={getRowKey(row)} className="group relative">
               {columns.map((col) => (
                 <td
                   key={col.key}
                   className={cn(
-                    'border-b border-line px-4 py-5 align-middle transition-colors first:pl-0 last:pr-0 group-hover:bg-surface/60',
+                    'border-b border-line px-4 align-middle transition-colors first:pl-0 last:pr-0 group-hover:bg-surface/60',
+                    dense ? 'py-2.5' : 'py-5',
                     col.align === 'right' ? 'text-right' : 'text-left',
                     col.hideBelow && HIDE[col.hideBelow],
                     col.className,

@@ -2,26 +2,41 @@ import { useState, type FormEvent } from 'react';
 import { CheckCircle2, Globe, Sparkles } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { ANALYZER_EXAMPLES } from '@/data/analyzerExamples';
+import { focusFirstInvalid } from '@/utils/focus';
 import { isValidUrl } from '@/utils/validation';
+import { submitOnCtrlEnter } from '@/utils/keyboard';
 import { FormActions } from './FormActions';
 import type { AnalyzerFormProps } from './types';
 
-export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
-  const [value, setValue] = useState('');
-  const [touched, setTouched] = useState(false);
+export function UrlForm({ onSubmit, busy, value, onValueChange }: AnalyzerFormProps) {
+  // Al volver a la pestaña con un borrador, su validación se muestra de nuevo
+  const [touched, setTouched] = useState(value.length > 0);
+  const [submitted, setSubmitted] = useState(false);
 
   const valid = isValidUrl(value);
-  const error = touched && value.length > 0 && !valid ? 'No parece una dirección web válida (ej. https://dominio.com/ruta).' : undefined;
+  const error = valid
+    ? undefined
+    : value.length > 0
+      ? touched
+        ? 'No parece una dirección web válida (ej. https://dominio.com/ruta).'
+        : undefined
+      : submitted
+        ? 'Pega la dirección web que quieres comprobar.'
+        : undefined;
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setTouched(true);
-    if (!valid) return;
+    setSubmitted(true);
+    if (!valid) {
+      focusFirstInvalid(e.currentTarget as HTMLFormElement);
+      return;
+    }
     onSubmit({ type: 'url', content: value.trim() });
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-5">
+    <form onSubmit={handleSubmit} onKeyDown={(e) => submitOnCtrlEnter(e, busy)} noValidate className="space-y-5">
       <Input
         id="url-input"
         label="Dirección web"
@@ -32,20 +47,20 @@ export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
         placeholder="https://ejemplo.com/iniciar-sesion"
         icon={Globe}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => onValueChange(e.target.value)}
         onBlur={() => setTouched(true)}
         error={error}
-        className="font-mono text-[13px]"
+        mono
         hint="Copia el enlace con clic derecho → «Copiar dirección del enlace». No hace falta abrirlo."
         trailing={valid ? <CheckCircle2 className="mr-2.5 h-4 w-4 text-safe" aria-label="Formato válido" /> : undefined}
         aside={
           <button
             type="button"
             onClick={() => {
-              setValue(ANALYZER_EXAMPLES.url);
+              onValueChange(ANALYZER_EXAMPLES.url);
               setTouched(true);
             }}
-            className="inline-flex items-center gap-1 rounded text-xs text-accent transition hover:text-accent-strong"
+            className="inline-flex min-h-6 items-center gap-1 rounded text-xs text-accent transition-colors hover:text-fg"
           >
             <Sparkles className="h-3.5 w-3.5" aria-hidden />
             Cargar ejemplo
@@ -69,8 +84,9 @@ export function UrlForm({ onSubmit, busy }: AnalyzerFormProps) {
         busy={busy}
         canClear={value.length > 0}
         onClear={() => {
-          setValue('');
+          onValueChange('');
           setTouched(false);
+          setSubmitted(false);
         }}
       />
     </form>

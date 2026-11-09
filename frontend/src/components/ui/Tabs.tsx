@@ -59,7 +59,7 @@ export function Tabs<T extends string>({ items, value, onChange, label, idPrefix
             {item.description && <span className="mt-2 hidden text-sm text-muted sm:block">{item.description}</span>}
             <span
               className={cn(
-                'absolute inset-x-0 bottom-0 h-0.5 origin-left bg-accent-strong transition-transform duration-300 ease-out',
+                'absolute inset-x-0 bottom-0 h-0.5 origin-left bg-accent-strong transition-transform duration-base ease-out',
                 selected ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-[0.15]',
               )}
               aria-hidden

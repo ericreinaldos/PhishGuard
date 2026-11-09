@@ -1,17 +1,18 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell, LogOut, Settings } from 'lucide-react';
+import { Bell, ChevronDown, LogOut, Settings } from 'lucide-react';
 import { DEMO_USER } from '@/data/demoUser';
 import { useToast } from '@/hooks/useToast';
 import { useVisualLogout } from '@/hooks/useVisualLogout';
 import { cn } from '@/utils/cn';
 
-export const userInitials = (name: string) =>
-  name
-    .split(' ')
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join('');
+/** Inicial del primer y del último nombre, en mayúsculas. */
+export const userInitials = (name: string) => {
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return '?';
+  const picked = words.length === 1 ? words : [words[0], words[words.length - 1]];
+  return picked.map((w) => w[0].toUpperCase()).join('');
+};
 
 /** Menú de cuenta de la cabecera: perfil, notificaciones (pendiente) y cierre de sesión visual. */
 export function AccountMenu() {
@@ -43,18 +44,19 @@ export function AccountMenu() {
         aria-expanded={open}
         aria-controls={id}
         aria-label="Mi cuenta"
-        className="flex items-center gap-2.5 rounded-full py-1 pl-1 pr-3 text-sm text-muted transition-colors hover:text-fg"
+        className="flex items-center gap-2.5 rounded-full py-1 pl-1 pr-2 text-sm text-muted transition-colors hover:text-fg"
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent-strong font-mono text-[11px] font-medium text-white">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent-strong font-mono text-[11px] font-medium text-accent-ink">
           {userInitials(DEMO_USER.name)}
         </span>
         Mi cuenta
+        <ChevronDown className={cn('h-4 w-4 transition-transform duration-base ease-out', open && 'rotate-180')} aria-hidden />
       </button>
 
       <div
         id={id}
         className={cn(
-          'absolute right-0 top-[calc(100%+10px)] w-64 overflow-hidden rounded-xl border border-line bg-surface shadow-pop transition-[opacity,transform] duration-200',
+          'absolute right-0 top-[calc(100%+10px)] w-64 overflow-hidden rounded-xl border border-line bg-surface shadow-pop transition-[opacity,transform] duration-base',
           open ? 'translate-y-0 opacity-100' : 'pointer-events-none invisible -translate-y-1 opacity-0',
         )}
       >
